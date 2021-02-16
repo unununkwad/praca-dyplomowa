@@ -26,7 +26,7 @@
         <!--Nav bar-->
         <nav class="navbar navbar-expand-lg nav-back fixed-top" id="nav">
             <div class="container">
-                <a class="navbar-brand" href="#">Przychodnia ACME</a>
+                <a class="navbar-brand" href="/">Przychodnia ACME</a>
                 <button class="navbar-toggler navbar-toggler-right"type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-comment-medical fa-2x"></i>
                 </button>
