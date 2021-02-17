@@ -29,7 +29,7 @@ Route::group(['middleware'=>['auth']], function () {
         return view('user');
     });
 
-    Route::group(['middleware'=>['admin']], function () {
+    Route::group(['middleware'=>['lekarz']], function () {
         Route::get('/lekarz', function () {
             return view('lekarz');
         })->name('lekarz');
@@ -72,6 +72,11 @@ Route::group(['middleware'=>['auth']], function () {
 Route::get('/', function () {
     return view('home');
 });
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('/', function () {
+    return view('home');
+})->name('home');

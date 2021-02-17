@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Auth;
 
-class CheckAdmin
+class CheckLekarz
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class CheckAdmin
     {
         $userRoles = Auth::user()->roles->pluck('name');
 
-        if (!$userRoles->contains('admin')){
+        if (!$userRoles->contains('lekarz')){
             return redirect('/');
         }
 
