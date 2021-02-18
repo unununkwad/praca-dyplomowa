@@ -6,9 +6,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="/css/main.css">
+
+        
+        @livewireStyles
+
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,500&display=swap" rel="stylesheet">
+
+        
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
         <script src="https://kit.fontawesome.com/2e29588e51.js" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -22,58 +32,22 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
-
-        <!--Nav bar-->
-        <nav class="navbar navbar-expand-lg nav-back fixed-top" id="nav">
-            <div class="container">
-                <a class="navbar-brand" href="/">Przychodnia ACME</a>
-                <button class="navbar-toggler navbar-toggler-right"type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-comment-medical fa-2x"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Usługi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">O nas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Kontakt</a>
-                        </li>
-                        @if (Route::has('login'))
-                <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
-                    @auth
-                        <li class="nav-item">
-                            <a href="{{ url('/dashboard') }}" class="nav-link">dashboard</a>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">Zaloguj</a>
-                        </li>
-
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a href="{{ route('register') }}" class="nav-link">Rejestracja</a>
-                        </li>
-                        @endif
-                    @endif
-                    
-                </div>
-            @endif
-            
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    @livewire('navigation-dropdown')
         <!--koniec paska nav bar-->
         <!-- hero image -->
         <section id="hero" class="d-flex align-items-center">
             <div class="container text-center position-relative">
                 <h1>Wasze zdrowie to dla nas priorytet</h1>
                 <h2 class="text-uppercase">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, nam.</h2>
-                    <a href="#" class="main-btn">Dowiedz się więcej</a>
+                    @if (Route::has('login'))
+                    <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
+                        @auth
+                            <a href="/user" class="main-btn">Umów się na spotkanie</a>
+                        
+                    @else
+                        <a href="{{ route('login') }}" class="main-btn">Umów się na spotkanie</a>
+                        @endif
+                    @endif
             </div>
 
         </section>
@@ -217,5 +191,6 @@
 
 
 
+        @livewireScripts
     </body>
 </html>
