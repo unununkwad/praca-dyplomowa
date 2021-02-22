@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +81,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+
+Route::get('/events', [EventController::class, 'index']);
+Route::post('/events/create', [EventController::class, 'create'])->name('events.add');
+Route::post('/events/update', [EventController::class, 'update']);
+Route::post('/events/delete', [EventController::class, 'destroy']);
+
