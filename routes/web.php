@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LekarzController;
+use App\Http\Controllers\WorkingHoursController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +33,15 @@ Route::group(['middleware'=>['auth']], function () {
     });
 
     Route::group(['middleware'=>['lekarz']], function () {
-        Route::get('/lekarz', function () {
-            return view('lekarz');
-        })->name('lekarz');
+        Route::get('/lekarz', [EventController::class, 'index'])->name('lekarz');
+        Route::post('/lekarz/create', [EventController::class, 'create'])->name('events.add');
+        Route::post('/lekarz/update', [EventController::class, 'update']);
+        Route::post('/lekarz/delete', [EventController::class, 'destroy']);
+
+        Route::get('/working-hours', [WorkingHoursController::class, 'index'])->name('lekarz');
+        Route::post('/working-hours/create', [WorkingHoursController::class, 'create']);
+        Route::post('/working-hours/update', [WorkingHoursController::class, 'update']);
+        Route::post('/working-hours/delete', [WorkingHoursController::class, 'destroy']);
     });
 
     Route::group(['middleware'=>['recepcja']], function () {
@@ -83,8 +91,11 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/events', [EventController::class, 'index']);
-Route::post('/events/create', [EventController::class, 'create'])->name('events.add');
-Route::post('/events/update', [EventController::class, 'update']);
-Route::post('/events/delete', [EventController::class, 'destroy']);
+
+
+
+
+
+
+
 

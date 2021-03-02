@@ -20,7 +20,7 @@ class CheckLekarz
         $userRoles = Auth::user()->roles->pluck('name');
 
         if (!$userRoles->contains('lekarz')){
-            return redirect('/');
+            return redirect('home');
         }
 
         return $next($request);

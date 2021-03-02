@@ -20,7 +20,7 @@ class CheckAdmin
         $userRoles = Auth::user()->roles->pluck('name');
 
         if (!$userRoles->contains('admin') || $request->expectsJson()){
-            return redirect('/');
+            return redirect('home');
         }
 
         return $next($request);

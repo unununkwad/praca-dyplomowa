@@ -7,42 +7,35 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use Auth;
 use Validator;
-use App\Models\Event;
-use App\Models\User;
-use App\Models\Role;
+use App\Models\WorkingHours;
 use Response;
  
 use Calendar;
  
-class EventController extends Controller
+class WorkingHoursController extends Controller
 {
 
     public function index()
     {
-        $users = User::with('roles')->get();
-        //dd($users);
-
-
         if(request()->ajax()) 
         {
  
          $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
          $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
  
-         $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+         $data = WorkingHours::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','start', 'end']);
          return Response::json($data);
         }
-        return view('lekarz', ['users' => $users]);
+        return view('working-hours');
     }
     
    
     public function create(Request $request)
     {
-        $insertArr = [ 'title' => $request->title,
-                       'start' => $request->start,
+        $insertArr = [ 'start' => $request->start,
                        'end' => $request->end
                     ];
-        $event = Event::insert($insertArr);   
+        $event = WorkingHours::insert($insertArr);   
         return Response::json($event);
     }
      
@@ -50,8 +43,8 @@ class EventController extends Controller
     public function update(Request $request)
     {   
         $where = array('id' => $request->id);
-        $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
-        $event  = Event::where($where)->update($updateArr);
+        $updateArr = ['start' => $request->start, 'end' => $request->end];
+        $event  = WorkingHours::where($where)->update($updateArr);
  
         return Response::json($event);
     } 
@@ -59,7 +52,7 @@ class EventController extends Controller
  
     public function destroy(Request $request)
     {
-        $event = Event::where('id',$request->id)->delete();
+        $event = WorkingHours::where('id',$request->id)->delete();
    
         return Response::json($event);
     }

@@ -18,6 +18,12 @@ class CreateEventsTable extends Migration
             $table->string('title');
             $table->dateTime('start');
             $table->dateTime('end');
+            $table->integer('lekarz_id')->unsigned();
+            $table->integer('pacjent_id')->unsigned();
+
+            $table->foreign('lekarz_id')->references('id')->on('users')->onCascade('delete');
+
+            $table->foreign('pacjent_id')->references('id')->on('users')->onCascade('delete');
             $table->timestamps();
         });
     }

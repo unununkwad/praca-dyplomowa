@@ -19,7 +19,7 @@
                 <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
                     @auth
                         <li class="nav-item">
-                            <a href="{{ url('/dashboard') }}" class="nav-link">dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="nav-link">Panel użytkownika</a>
                         </li>
 
 
