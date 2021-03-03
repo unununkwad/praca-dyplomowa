@@ -55,7 +55,29 @@
                     } else {
                         event.allDay = false;
                     }
+                    
                 },
+
+                
+                eventAfterAllRender: function(view){
+                    if ($("#calendar .fc-event").length > 0) {
+                        var op = 999999;
+                        $("#calendar .fc-content-col").each(function(index){
+                            if($(this).find('.fc-event:first').length > 0){
+                                var ot = $(this).find('.fc-event:first').position().top;
+                                if(ot < op){
+                                    op=ot;
+                                }
+                            }
+                        });
+                        if( op < 999999){
+                            $("#calendar .fc-scroller").animate({
+                                scrollTop: op
+                            }, 250);
+                        }
+                    }
+                },
+                
                 selectable: true,
                 selectHelper: true,
                 select: function (start, end, allDay) {
@@ -68,7 +90,7 @@
                             data: '&start=' + start + '&end=' + end,
                             type: "POST",
                             success: function (data) {
-                                displayMessage("Added Successfully");
+                                //displayMessage("Added Successfully");
                                 $('#calendar').fullCalendar('removeEvents');
                                 $('#calendar').fullCalendar('refetchEvents');
                             }
@@ -85,17 +107,31 @@
                 },
                 
                 eventDrop: function (event, delta) {
-                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-                            $.ajax({
-                                url: SITEURL + '/working-hours/update',
-                                data: '&start=' + start + '&end=' + end + '&id=' + event.id,
-                                type: "POST",
-                                success: function (response) {
-                                    displayMessage("Updated Successfully");
-                                }
-                            });
-                        },
+                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                    $.ajax({
+                        url: SITEURL + '/working-hours/update',
+                        data: '&start=' + start + '&end=' + end + '&id=' + event.id,
+                        type: "POST",
+                        success: function (response) {
+                            //displayMessage("Updated Successfully");
+                        }
+                    });
+                },
+
+                eventResize: function (event, delta) {
+                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                    $.ajax({
+                        url: SITEURL + '/working-hours/update',
+                        data: '&start=' + start + '&end=' + end + '&id=' + event.id,
+                        type: "POST",
+                        success: function (response) {
+                            //displayMessage("Updated Successfully");
+                        }
+                    });
+                },
+                
                 eventClick: function (event) {
                     var deleteMsg = confirm("Do you really want to delete?");
                     if (deleteMsg) {
@@ -106,7 +142,7 @@
                             success: function (response) {
                                 if(parseInt(response) > 0) {
                                     $('#calendar').fullCalendar('removeEvents', event.id);
-                                    displayMessage("Deleted Successfully");
+                                    //displayMessage("Deleted Successfully");
                                 }
                             }
                         });

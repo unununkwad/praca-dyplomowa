@@ -46,7 +46,7 @@
                 //editable: true,
                 eventLimit: true,
                 
-                events: SITEURL + "/events",
+                events: SITEURL + "/lekarz",
                 displayEventTime: true,
                 eventRender: function (event, element, view) {
                     if (event.allDay === 'true') {
@@ -55,7 +55,28 @@
                         event.allDay = false;
                     }
                 },
-                selectable: true,
+
+                eventAfterAllRender: function(view){
+                    if ($("#calendar .fc-event").length > 0) {
+                        var op = 999999;
+                        $("#calendar .fc-content-col").each(function(index){
+                            if($(this).find('.fc-event:first').length > 0){
+                                var ot = $(this).find('.fc-event:first').position().top;
+                                if(ot < op){
+                                    op=ot;
+                                }
+                            }
+                        });
+                        if( op < 999999){
+                            $("#calendar .fc-scroller").animate({
+                                scrollTop: op
+                            }, 250);
+                        }
+                    }
+                },
+
+                
+                selectable: false,
                 selectHelper: true,
                 // select: function (start, end, allDay) {
                 //     var title = prompt('Event Title:');
