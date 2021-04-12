@@ -13,12 +13,16 @@ class CreateWorkingHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('working_hours', function (Blueprint $table) {
-            $table->id();
-            $table->dateTime('start');
-            $table->dateTime('end');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('working_hours')){
+            Schema::create('working_hours', function (Blueprint $table) {
+                $table->id();
+                $table->dateTime('start');
+                $table->dateTime('end');
+                $table->timestamps();
+                $table->integer('user_id')->unsigned();
+                $table->foreign('user_id')->references('id')->on('users')->onCascade('delete');
+            });
+        }
     }
 
     /**

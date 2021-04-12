@@ -9,6 +9,6 @@ class WorkingHours extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'start','end',
+        'start','end','user_id'
     ];
 }

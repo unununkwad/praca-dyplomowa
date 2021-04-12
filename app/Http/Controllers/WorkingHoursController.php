@@ -9,7 +9,7 @@ use Auth;
 use Validator;
 use App\Models\WorkingHours;
 use Response;
- 
+
 use Calendar;
  
 class WorkingHoursController extends Controller
@@ -19,12 +19,12 @@ class WorkingHoursController extends Controller
     {
         if(request()->ajax()) 
         {
- 
-         $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-         $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
- 
-         $data = WorkingHours::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','start', 'end']);
-         return Response::json($data);
+            $id = Auth::id();
+            $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+    
+            $data = WorkingHours::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->where('user_id', '=', $id)->get(['id', 'start', 'end', 'user_id']);
+            return Response::json($data);
         }
         return view('working-hours');
     }
@@ -32,8 +32,10 @@ class WorkingHoursController extends Controller
    
     public function create(Request $request)
     {
+        $id = Auth::id();
         $insertArr = [ 'start' => $request->start,
-                       'end' => $request->end
+                       'end' => $request->end,
+                       'user_id' => $id
                     ];
         $event = WorkingHours::insert($insertArr);   
         return Response::json($event);
