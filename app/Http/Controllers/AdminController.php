@@ -18,8 +18,30 @@ class AdminController extends Controller
     public function user()
     {
         $users = User::with('roles')->get();
+        $key = NULL;
+        $startDate = NULL;
+        $endDate = NULL;
+        $DateAndHour = NULL;
+
         //dd($users);
-        return view('user', ['users' => $users]);
+        return view('user', [
+            'users' => $users,
+            'key' => $key,
+            'startDate' => $DateAndHour
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $users = User::with('roles')->get();
+        $key = trim($request->get('lekarz'));
+        
+        $DateAndHour = trim($request->get('Date'));
+        return view('user', [
+            'users' => $users,
+            'key' => $key,
+            'startDate' => $DateAndHour
+        ]);
     }
 
     public function giveAdmin($userId)

@@ -29,6 +29,7 @@ use App\Models\User;
 
 Route::group(['middleware'=>['auth']], function () {
     Route::get('/user', [AdminController::class, 'user']);
+    Route::get('/user/search', [AdminController::class, 'search']);
 
     Route::group(['middleware'=>['lekarz']], function () {
         Route::get('/lekarz', [EventController::class, 'index'])->name('lekarz');

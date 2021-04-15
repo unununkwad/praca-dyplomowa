@@ -60,34 +60,37 @@
                 <!-- /.card-header -->
                     <div class="card-body">
                         <div class="col-12">
-                            <div class="form-group">
-                                <label>Wybierz lekarza</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected>Dowolny</option>
+                            <form action="/user/search" method="GET" role="search">
+                                <div class="form-group">
+                                    <label>Wybierz lekarza</label>
+                                    <select class="form-control select2" style="width: 100%;" name="lekarz">
+                                        <option selected>Dowolny</option>
 
-                                    @if(isset($users))
-                                        @foreach ($users as $user)
-                                            @if($user->hasRole('lekarz'))
-                                                <option>{{$user->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </select>
+                                        @if(isset($users))
+                                            @foreach ($users as $user)
+                                                @if($user->hasRole('lekarz'))
+                                                    <option>{{$user->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </select>
 
-                                <br>
-                                <label>Zakres czasowy:</label>
+                                    <br>
+                                    <label>Zakres czasowy:</label>
 
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control float-right" id="reservationtime">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="reservationtime">
+                                    </div><br>
+
+
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg">Szukaj</button>
+
                                 </div>
-                            </div>
+                            </form>
                         </div>
-
-                            <button type="button" class="btn btn-block btn-primary btn-lg">Szukaj</button>
-
                     </div>
                 </div>
                 <hr>
@@ -122,7 +125,9 @@
                                     </td>
                                     <td>
                                         <h5>
-                                            AdminLTE v3
+                                            @if(isset($users))
+                                                {{$key}}
+                                            @endif
                                         </h5>
                                     </td>
                                     <td>
