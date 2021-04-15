@@ -15,6 +15,13 @@ class AdminController extends Controller
         return view('admin', ['users' => $users]);
     }
 
+    public function user()
+    {
+        $users = User::with('roles')->get();
+        //dd($users);
+        return view('user', ['users' => $users]);
+    }
+
     public function giveAdmin($userId)
     {
         $user = User::where('id', $userId)->firstorFail();

@@ -64,18 +64,17 @@
                                 <label>Wybierz lekarza</label>
                                 <select class="form-control select2" style="width: 100%;">
                                     <option selected>Dowolny</option>
-                                    <option>Krzysztof Tworek</option>
-                                    <option>Jan kowalski</option>
-                                    <option>MACIEJ</option>
-                                    <option>PAWEŁ</option>
-                                    <option>PATRYK</option>
-                                    <option>ADRIAN</option>
-                                    <option>MAREK</option>
+
+                                    @if(isset($users))
+                                        @foreach ($users as $user)
+                                            @if($user->hasRole('lekarz'))
+                                                <option>{{$user->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </select>
-                            </div>
 
-
-                            <div class="form-group">
+                                <br>
                                 <label>Zakres czasowy:</label>
 
                                 <div class="input-group">
@@ -91,8 +90,111 @@
 
                     </div>
                 </div>
+                <hr>
+
+
+
+
+
+                <div class="card">
+
+                    <div class="card-body p-0">
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 1%">
+                                        #
+                                    </th>
+                                    <th style="width: 40%">
+                                        Imię i nazwisko lekarza
+                                    </th>
+                                    <th style="width: 30%">
+                                        Data i godzina terminu
+                                    </th>
+                                    <th style="width: 20%">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-file-signature">
+                                            </i>
+                                            Zapisz się
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-file-signature">
+                                            </i>
+                                            Zapisz się
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            AdminLTE v3
+                                        </h5>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-file-signature">
+                                            </i>
+                                            Zapisz się
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            
             </div>
         </section>
+
+
+
+
+        
 
 
 
