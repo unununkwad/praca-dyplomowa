@@ -11,4 +11,6 @@ class WorkingHours extends Model
     protected $fillable = [
         'start','end','user_id'
     ];
+
+
 }

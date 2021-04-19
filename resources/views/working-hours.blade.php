@@ -133,7 +133,7 @@
                 },
                 
                 eventClick: function (event) {
-                    var deleteMsg = confirm("Do you really want to delete?");
+                    var deleteMsg = confirm("Usunąć wybrane godziny?");
                     if (deleteMsg) {
                         $.ajax({
                             type: "POST",

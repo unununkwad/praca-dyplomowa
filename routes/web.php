@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LekarzController;
 use App\Http\Controllers\WorkingHoursController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,8 @@ use App\Models\User;
 
 
 Route::group(['middleware'=>['auth']], function () {
-    Route::get('/user', [AdminController::class, 'user']);
-    Route::get('/user/search', [AdminController::class, 'search']);
+    Route::get('/user', [UserController::class, 'user']);
+    Route::get('/user/search', [UserController::class, 'search']);
 
     Route::group(['middleware'=>['lekarz']], function () {
         Route::get('/lekarz', [EventController::class, 'index'])->name('lekarz');

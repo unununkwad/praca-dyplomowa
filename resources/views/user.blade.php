@@ -6,48 +6,6 @@
         </h2>
     </x-slot>
 
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
-        </div>
-    </div> -->
-    
-        <!-- <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Szukaj terminu spotkania</h3>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Wybierz lekarza</label>
-                            <select class="form-control select2" style="width: 100%;">
-                                <option selected="selected">Alabama</option>
-                                <option>Alaska</option>
-                                <option>California</option>
-                                <option>Delaware</option>
-                                <option>Tennessee</option>
-                                <option>Texas</option>
-                                <option>Washington</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Wybierz przedział czasowy:</label>
-
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-clock-o"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="reservationtime">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
 
 
     <!-- Main content -->
@@ -62,7 +20,7 @@
                         <div class="col-12">
                             <form action="/user/search" method="GET" role="search">
                                 <div class="form-group">
-                                    <label>Wybierz lekarza</label>
+                                    <label>Wybierz lekarza:</label>
                                     <select class="form-control select2" style="width: 100%;" name="lekarz">
                                         <option selected>Dowolny</option>
 
@@ -76,13 +34,15 @@
                                     </select>
 
                                     <br>
-                                    <label>Zakres czasowy:</label>
 
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                    <div class="form-group">
+                                        <label>Wybierz dzień:</label>
+                                        <div class="input-group date" id="reservationdate" data-target-input="nearest" autocomplete="off">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="Date" data-toggle="datetimepicker">
+                                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
                                         </div>
-                                        <input type="text" class="form-control float-right" id="reservationtime">
                                     </div><br>
 
 
@@ -119,73 +79,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        #
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            @if(isset($users))
-                                                {{$key}}
-                                            @endif
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            AdminLTE v3
-                                        </h5>
-                                    </td>
-                                    <td class="project-actions text-right">
-                                        <a class="btn btn-primary btn-sm" href="#">
-                                            <i class="fas fa-file-signature">
-                                            </i>
-                                            Zapisz się
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        #
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            AdminLTE v3
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            AdminLTE v3
-                                        </h5>
-                                    </td>
-                                    <td class="project-actions text-right">
-                                        <a class="btn btn-primary btn-sm" href="#">
-                                            <i class="fas fa-file-signature">
-                                            </i>
-                                            Zapisz się
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        #
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            AdminLTE v3
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <h5>
-                                            AdminLTE v3
-                                        </h5>
-                                    <td class="project-actions text-right">
-                                        <a class="btn btn-primary btn-sm" href="#">
-                                            <i class="fas fa-file-signature">
-                                            </i>
-                                            Zapisz się
-                                        </a>
-                                    </td>
-                                </tr>
+                                @if(isset($DbData))
+                                    @foreach ($DbData as $DbData1)
+                                        <tr>
+                                            <td>
+                                                #
+                                            </td>
+                                            <td>
+                                                <h5>
+                                                    {{$DbData1->name}}
+                                                </h5>
+                                            </td>
+                                            <td>
+                                                <h5>
+                                                    {{$DbData1->start}}
+                                                </h5>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-file-signature">
+                                                    </i>
+                                                    Zapisz się
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 
                             </tbody>
                         </table>
@@ -241,12 +160,6 @@
       theme: 'bootstrap4'
     })
 
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
 
 
 
@@ -264,7 +177,7 @@
         timePicker24Hour: true,
         timePickerIncrement: 15,
         locale: {
-            "format": "DD/MM/YYYY",
+            "format": "DD-MM-YYYY",
             "separator": " - ",
             "applyLabel": "Akceptuj",
             "cancelLabel": "Anuluj",
@@ -298,6 +211,11 @@
     });
 
 
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: "YYYY-MM-DD"
+    });
 
 
 
