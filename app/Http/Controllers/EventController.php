@@ -25,11 +25,11 @@ class EventController extends Controller
 
         if(request()->ajax()) 
         {
- 
+         $id = Auth::id();
          $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
          $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
  
-         $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+         $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->where('lekarz_id', '=', $id)->get(['id','title','start', 'end']);
          return Response::json($data);
         }
         return view('lekarz', ['users' => $users]);

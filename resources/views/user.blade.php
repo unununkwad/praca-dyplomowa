@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <label>Wybierz dzień:</label>
                                         <div class="input-group date" id="reservationdate" data-target-input="nearest" autocomplete="off">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="Date" data-toggle="datetimepicker">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="Date">
                                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
@@ -79,30 +79,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(isset($DbData))
-                                    @foreach ($DbData as $DbData1)
-                                        <tr>
-                                            <td>
-                                                #
-                                            </td>
-                                            <td>
-                                                <h5>
-                                                    {{$DbData1->name}}
-                                                </h5>
-                                            </td>
-                                            <td>
-                                                <h5>
-                                                    {{$DbData1->start}}
-                                                </h5>
-                                            </td>
-                                            <td class="project-actions text-right">
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="fas fa-file-signature">
-                                                    </i>
-                                                    Zapisz się
-                                                </a>
-                                            </td>
-                                        </tr>
+                                @if(isset($DbDate))
+                                    @foreach ($DbDate as $DbDate1)
+                                        @foreach ($DbDate1->add15Min() as $Date)
+                                            <form action="/user/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
+                                            @csrf
+                                                <tr>
+                                                    <td>
+                                                        #
+                                                    </td>
+                                                    <td>
+                                                        <h5>
+                                                            {{$DbDate1->name}}
+                                                        </h5>
+                                                    </td>
+                                                    <td>
+                                                        <h5>
+                                                            {{$Date}}
+                                                        </h5>
+                                                    </td>
+                                                    <td class="project-actions text-right">
+                                                        <button type="submit" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-file-signature">
+                                                            </i>
+                                                            Zapisz się
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </form>
+                                        @endforeach
                                     @endforeach
                                 @endif
                                 

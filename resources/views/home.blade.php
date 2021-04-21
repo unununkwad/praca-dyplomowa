@@ -56,7 +56,7 @@
         <section id="services" class="services mt-5 py-3">
             <div class="container">
                 <div class="section-title">
-                    <h2 class="text-center">Usługi</h2>
+                    <h2 class="text-center" id="uslugi">Usługi</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, excepturi natus. Facilis corporis sed harum!</p>
                 </div>
                 <div class="row">

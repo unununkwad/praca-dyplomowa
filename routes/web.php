@@ -31,6 +31,7 @@ use App\Models\User;
 Route::group(['middleware'=>['auth']], function () {
     Route::get('/user', [UserController::class, 'user']);
     Route::get('/user/search', [UserController::class, 'search']);
+    Route::post('/user/add-event/{lekarz}/{start}', [UserController::class, 'addEvent']);
 
     Route::group(['middleware'=>['lekarz']], function () {
         Route::get('/lekarz', [EventController::class, 'index'])->name('lekarz');
