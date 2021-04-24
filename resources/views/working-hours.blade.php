@@ -163,9 +163,19 @@
 
         <div class="panel panel-primary">
             <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Godziny pracy') }}
-                </h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Godziny pracy') }}
+                        </h2>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-outline-primary btn-lg float-right" href="/lekarz">
+                            <i class="fas fa-arrow-circle-left"></i>
+                            Wróć
+                        </a>
+                    </div>
+                </div>
             </x-slot>
             <div class="panel-body" >
                 <div class="response alert alert-success mt-2" style="display: none;"></div><br>

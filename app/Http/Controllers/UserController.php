@@ -88,7 +88,65 @@ class UserController extends Controller
         $event = Event::insert($insertArr);   
         Response::json($event);
 
-        return redirect('/user');
+        return redirect('/user/termin');
     }
 
+    public function destroy($event_start, $user_name)
+    {
+        $event = Event::where('start',$event_start)->delete();
+   
+        //dd($event_id);
+        Response::json($event);
+        return back();
+    }
+
+
+    public function profil()
+    {
+        $id = Auth::id();
+        $users = User::with('roles')
+        ->where('id', '=', $id)
+        ->get();
+        
+        $events = Event::where('pacjent_id', '=', "{$id}%")
+        ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+        ->orderBy('start', 'desc')
+        ->get();
+        //dd($users);
+
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+
+        return view('profil_pacjenta', [
+            'users' => $users,
+            'events' => $events,
+            'now' => $now
+        ]);
+    }
+
+    public function lekarz_profil($title)
+    {
+        $role = "lekarz";
+
+        $users = User::with('roles')
+        ->where('name', '=', $title)
+        ->get();
+        
+        foreach ($users as $user){
+            $events = Event::where('pacjent_id', '=', "{$user->id}%")
+            ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+            ->orderBy('start', 'desc')
+            ->get();
+        }
+
+        //dd($role);
+
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+
+        return view('profil_pacjenta', [
+            'users' => $users,
+            'events' => $events,
+            'now' => $now,
+            'role' => $role
+        ]);
+    }
 }

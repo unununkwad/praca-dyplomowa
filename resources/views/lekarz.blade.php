@@ -124,23 +124,9 @@
 
 
 
-                //tutaj wklepię profile użytkowników
-                // eventClick: function (event) {
-                //     var deleteMsg = confirm("Do you really want to delete?");
-                //     if (deleteMsg) {
-                //         $.ajax({
-                //             type: "POST",
-                //             url: SITEURL + '/events/delete',
-                //             data: "&id=" + event.id,
-                //             success: function (response) {
-                //                 if(parseInt(response) > 0) {
-                //                     $('#calendar').fullCalendar('removeEvents', event.id);
-                //                     displayMessage("Deleted Successfully");
-                //                 }
-                //             }
-                //         });
-                //     }
-                // }
+                eventClick: function (event) {
+                    location.href = SITEURL + '/user/profil/' + event.title;
+                }
             });
         });
 

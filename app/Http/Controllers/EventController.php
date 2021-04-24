@@ -55,14 +55,6 @@ class EventController extends Controller
  
         return Response::json($event);
     } 
- 
- 
-    public function destroy(Request $request)
-    {
-        $event = Event::where('id',$request->id)->delete();
-   
-        return Response::json($event);
-    }
 
 
 

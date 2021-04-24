@@ -1,9 +1,17 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User page') }}
-        </h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="card-title">Wyszukaj termin spotkania</h3>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-outline-primary btn-lg float-right" href="/user/profil">
+                    <i class="fas fa-arrow-circle-left"></i>
+                    Wróć
+                </a>
+            </div>
+        </div>
     </x-slot>
 
 
@@ -11,11 +19,6 @@
     <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- SELECT2 EXAMPLE -->
-                    <div class="card-header">
-                        <h3 class="card-title">Wyszukaj termin spotkania</h3>
-                    </div>
-                <!-- /.card-header -->
                     <div class="card-body">
                         <div class="col-12">
                             <form action="/user/search" method="GET" role="search">
@@ -100,8 +103,7 @@
                                                     </td>
                                                     <td class="project-actions text-right">
                                                         <button type="submit" class="btn btn-primary btn-sm">
-                                                            <i class="fas fa-file-signature">
-                                                            </i>
+                                                            <i class="fas fa-file-signature"></i>
                                                             Zapisz się
                                                         </button>
                                                     </td>

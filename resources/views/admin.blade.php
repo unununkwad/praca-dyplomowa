@@ -31,7 +31,31 @@
                                     <small class="text-muted">{{$role->name}}</small>
                                 @endforeach
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-2 mb-2">
+                                @if($user->hasRole('lekarz'))
+                                        <a class="btn btn-primary" href="/admin/remove-lekarz/{{$user->id}}">
+                                            Odbierz uprawnienia lekarza
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" href="/admin/give-lekarz/{{$user->id}}">
+                                            Nadaj uprawnienia lekarza
+                                        </a>
+                                @endif
+                            </div>
+
+                            <div class="col-sm-2 mb-2">
+                                @if($user->hasRole('recepcja'))
+                                        <a class="btn btn-primary" href="/admin/remove-recepcja/{{$user->id}}">
+                                            Odbierz uprawnienia recepcji
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" href="/admin/give-recepcja/{{$user->id}}">
+                                            Nadaj uprawnienia recepcji
+                                        </a>
+                                @endif
+                            </div>
+
+                            <div class="col-sm-2 mb-2">
                                 @if($user->id != Auth::user()->id)
                                     @if($user->hasRole('admin'))
                                         <a class="btn btn-primary" href="/admin/remove-admin/{{$user->id}}">
@@ -42,24 +66,6 @@
                                             Nadaj uprawnienia administratora
                                         </a>
                                     @endif
-                                @endif
-                                @if($user->hasRole('lekarz'))
-                                        <a class="btn btn-primary" href="/admin/remove-lekarz/{{$user->id}}">
-                                            Odbierz uprawnienia lekarza
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" href="/admin/give-lekarz/{{$user->id}}">
-                                            Nadaj uprawnienia lekarza
-                                        </a>
-                                @endif
-                                @if($user->hasRole('recepcja'))
-                                        <a class="btn btn-primary" href="/admin/remove-recepcja/{{$user->id}}">
-                                            Odbierz uprawnienia recepcji
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" href="/admin/give-recepcja/{{$user->id}}">
-                                            Nadaj uprawnienia recepcji
-                                        </a>
                                 @endif
                             </div>
                         </div>
