@@ -114,12 +114,15 @@ class UserController extends Controller
         ->orderBy('start', 'desc')
         ->get();
         //dd($users);
+        
+        $additional_Data = Additional_Data::where('pacjent_id', '=', $id)->get();
 
         $now = Carbon::now()->format('Y-m-d H:i:s');
 
         return view('profil_pacjenta', [
             'users' => $users,
             'events' => $events,
+            'additional_Data' => $additional_Data,
             'now' => $now
         ]);
     }
@@ -128,13 +131,31 @@ class UserController extends Controller
     {
         $id = Auth::id();
         $pesel = trim($request->get('pesel'));
+        if($pesel == ""){
+            $pesel = 0;
+        }
+
         $phone_number = trim($request->get('phone_number'));
+        if($phone_number == ""){
+            $phone_number = 0;
+        }
 
         $where = array('pacjent_id' => $id);
-        $updateArr = ['pacjent_id' => $id,'pesel' => $pesel,'phone_number' => $phone_number];
-        $additional_Data = Additional_Data::where($where)->firstOrNew($updateArr);
+        $updateArr = [  'pacjent_id' => $id,
+                        'pesel' => $pesel,
+                        'phone_number' => $phone_number
+                    ];
+                    
+        $additional_Data = Additional_Data::where($where)->get();
+        
+        if ($additional_Data->count() != 0) {
+            $additional_Data = Additional_Data::where($where)->update($updateArr);
+        } else {
+            $additional_Data = Additional_Data::create($updateArr);
+        }
+
         //dd($additional_Data);
-        $additional_Data->save();
+        Response::json($additional_Data);
         return back();
     }
 
@@ -151,7 +172,10 @@ class UserController extends Controller
             ->leftJoin('users', 'lekarz_id', '=', 'users.id')
             ->orderBy('start', 'desc')
             ->get();
+            
+            $additional_Data = Additional_Data::where('pacjent_id', '=', $user->$id)->get();
         }
+
 
         //dd($role);
 
@@ -161,6 +185,7 @@ class UserController extends Controller
             'users' => $users,
             'events' => $events,
             'now' => $now,
+            'additional_Data' => $additional_Data,
             'role' => $role
         ]);
     }

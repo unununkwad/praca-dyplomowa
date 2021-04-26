@@ -13,12 +13,10 @@
                     {{ __('Spotkania z pacjentami') }}
                 </h2>
                     </div>
-                    <div class="col-md-3">
-                        <a class="btn btn-primary btn-lg" href="/user/profil">
+                    <div class="col-md-6">
+                        <a class="btn btn-primary btn-lg mr-2" href="/user/profil">
                             Osobisty profil pacjenta
                         </a>
-                    </div>
-                    <div class="col-md-3">
                         <a class="btn btn-primary btn-lg" href="/working-hours">
                             Ustaw godziny pracy
                         </a>

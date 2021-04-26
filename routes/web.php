@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LekarzController;
 use App\Http\Controllers\WorkingHoursController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RecepcjaController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,7 @@ Route::group(['middleware'=>['auth']], function () {
         Route::get('/recepcja', function () {
             return view('recepcja');
         });
+        Route::get('/recepcja/search', [RecepcjaController::class, 'search']);
     });
 
 

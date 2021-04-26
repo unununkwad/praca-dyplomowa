@@ -15,6 +15,14 @@
                     </a>
                 </div>
             @endif
+            @if(isset($role) && $role=="recepcja")
+                <div class="col-md-6">
+                    <a class="btn btn-outline-primary btn-lg float-right" href="/recepcja">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Wróć
+                    </a>
+                </div>
+            @endif
     </x-slot>
 
 
@@ -55,15 +63,38 @@
                                                     @endforeach
                                                 @endif
                                             </h2><br>
-                                            Numer pesel: 
-                                            <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
-                                            <h3 id="pesel_Show">987234598457</h3>
-
+                                            
+                                            @if(isset($additional_Data)  && count($additional_Data)>0)
+                                                @foreach ($additional_Data as $additional_Data1)
+                                                    Numer pesel: 
+                                                    @if($additional_Data1->pesel==0)
+                                                        <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
+                                                        <h3 id="pesel_Show">Nie podano</h3>
+                                                    @else
+                                                        <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel" value="{{$additional_Data1->pesel}}">
+                                                        <h3 id="pesel_Show">{{$additional_Data1->pesel}}</h3>
+                                                    @endif
                                         </div>
                                         <div class="col-md-6">
-                                            Numer telefonu: 
-                                            <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
-                                            <h4 id="email_Show">987234598457</h4><br>
+                                                    Numer telefonu:
+                                                    @if($additional_Data1->phone_number==0)
+                                                        <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
+                                                        <h4 id="email_Show">Nie podano</h4><br>
+                                                    @else
+                                                        <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu" value="{{$additional_Data1->phone_number}}">
+                                                        <h4 id="email_Show">{{$additional_Data1->phone_number}}</h4><br>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                Numer pesel: 
+                                                <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
+                                                <h3 id="pesel_Show">Nie podano</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                                Numer telefonu:
+                                                <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
+                                                <h4 id="email_Show">Nie podano</h4><br>
+                                            @endif
 
                                             Adres e-mail: 
                                             <h4>
@@ -74,17 +105,22 @@
                                                 @endif
                                             </h4>
                                         </div>
-                                    </div>
+                                    </div><br>
                                     @if(!isset($role))
-                                        <button type="button" class="btn btn-primary btn-lg float-right" id="button_Edit" onclick="show_TextBox()">
+                                        <button type="button" class="btn btn-primary btn-lg float-right" id="button_Edit" onclick="show_Edit()">
                                             <i class="fas fa-edit">
                                             </i>
                                             Edytuj
                                         </button>
                                         <button type="submit" class="btn btn-primary btn-lg float-right" id="button_Save" style="display: none;">
-                                            <i class="fas fa-edit">
+                                            <i class="fas fa-save">
                                             </i>
                                             Zapisz
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-lg float-right mr-3" id="button_Back" style="display: none;"  onclick="hide_Edit()">
+                                            <i class="fas fa-arrow-left">
+                                            </i>
+                                            Wróć
                                         </button>
                                     @endif
                                 </div>
@@ -259,20 +295,42 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
-function show_TextBox() {
+function show_Edit() {
   var pesel_Edit = document.getElementById("pesel_Edit");
   var pesel_Show = document.getElementById("pesel_Show");
   var email_Edit = document.getElementById("email_Edit");
   var email_Show = document.getElementById("email_Show");
   var button_Edit = document.getElementById("button_Edit");
   var button_Save = document.getElementById("button_Save");
+  var button_Back = document.getElementById("button_Back");
+
   
   pesel_Edit.style.display = "block";
   pesel_Show.style.display = "none";
   email_Edit.style.display = "block";
   email_Show.style.display = "none";
   button_Save.style.display = "block";
+  button_Back.style.display = "block";
   button_Edit.style.display = "none";
+}
+
+function hide_Edit() {
+  var pesel_Edit = document.getElementById("pesel_Edit");
+  var pesel_Show = document.getElementById("pesel_Show");
+  var email_Edit = document.getElementById("email_Edit");
+  var email_Show = document.getElementById("email_Show");
+  var button_Edit = document.getElementById("button_Edit");
+  var button_Save = document.getElementById("button_Save");
+  var button_Back = document.getElementById("button_Back");
+
+  
+  pesel_Edit.style.display = "none";
+  pesel_Show.style.display = "block";
+  email_Edit.style.display = "none";
+  email_Show.style.display = "block";
+  button_Save.style.display = "none";
+  button_Back.style.display = "none";
+  button_Edit.style.display = "block";
 }
 </script>
 <script src="plugins/jquery/jquery.min.js"></script>

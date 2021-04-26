@@ -19,107 +19,106 @@
     <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                    <div class="card-body">
-                        <div class="col-12">
-                            <form action="/user/search" method="GET" role="search">
-                                <div class="form-group">
-                                    <label>Wybierz lekarza:</label>
-                                    <select class="form-control select2" style="width: 100%;" name="lekarz">
-                                        <option selected>Dowolny</option>
+                <div class="card-body">
+                    <div class="col-12">
+                        <form action="/user/search" method="GET" role="search">
+                            <div class="form-group">
+                                <label>Wybierz lekarza:</label>
+                                <select class="form-control select2" style="width: 100%;" name="lekarz">
+                                    <option selected>Dowolny</option>
 
-                                        @if(isset($users))
-                                            @foreach ($users as $user)
-                                                @if($user->hasRole('lekarz'))
-                                                    <option>{{$user->name}}</option>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </select>
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <label>Wybierz dzień:</label>
-                                        <div class="input-group date" id="reservationdate" data-target-input="nearest" autocomplete="off">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="Date">
-                                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div><br>
-
-
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg">Szukaj</button>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-
-
-
-
-
-                <div class="card">
-
-                    <div class="card-body p-0">
-                        <table class="table table-striped projects">
-                            <thead>
-                                <tr>
-                                    <th style="width: 1%">
-                                        #
-                                    </th>
-                                    <th style="width: 40%">
-                                        Imię i nazwisko lekarza
-                                    </th>
-                                    <th style="width: 30%">
-                                        Data i godzina terminu
-                                    </th>
-                                    <th style="width: 20%">
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(isset($DbDate))
-                                    @foreach ($DbDate as $DbDate1)
-                                        @foreach ($DbDate1->add15Min() as $Date)
-                                            <form action="/user/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
-                                            @csrf
-                                                <tr>
-                                                    <td>
-                                                        #
-                                                    </td>
-                                                    <td>
-                                                        <h5>
-                                                            {{$DbDate1->name}}
-                                                        </h5>
-                                                    </td>
-                                                    <td>
-                                                        <h5>
-                                                            {{$Date}}
-                                                        </h5>
-                                                    </td>
-                                                    <td class="project-actions text-right">
-                                                        <button type="submit" class="btn btn-primary btn-sm">
-                                                            <i class="fas fa-file-signature"></i>
-                                                            Zapisz się
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </form>
+                                    @if(isset($users))
+                                        @foreach ($users as $user)
+                                            @if($user->hasRole('lekarz'))
+                                                <option>{{$user->name}}</option>
+                                            @endif
                                         @endforeach
-                                    @endforeach
-                                @endif
-                                
-                            </tbody>
-                        </table>
+                                    @endif
+                                </select>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <label>Wybierz dzień:</label>
+                                    <div class="input-group date" id="reservationdate" data-target-input="nearest" autocomplete="off">
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="Date">
+                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div><br>
+
+
+                                <button type="submit" class="btn btn-block btn-primary btn-lg">Szukaj</button>
+
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-            
             </div>
+            <hr>
+
+
+
+
+
+            <div class="card">
+
+                <div class="card-body p-0">
+                    <table class="table table-striped projects">
+                        <thead>
+                            <tr>
+                                <th style="width: 1%">
+                                    #
+                                </th>
+                                <th style="width: 40%">
+                                    Imię i nazwisko lekarza
+                                </th>
+                                <th style="width: 30%">
+                                    Data i godzina terminu
+                                </th>
+                                <th style="width: 20%">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(isset($DbDate))
+                                @foreach ($DbDate as $DbDate1)
+                                    @foreach ($DbDate1->add15Min() as $Date)
+                                        <form action="/user/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
+                                        @csrf
+                                            <tr>
+                                                <td>
+                                                    #
+                                                </td>
+                                                <td>
+                                                    <h5>
+                                                        {{$DbDate1->name}}
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <h5>
+                                                        {{$Date}}
+                                                    </h5>
+                                                </td>
+                                                <td class="project-actions text-right">
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-file-signature"></i>
+                                                        Zapisz się
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </form>
+                                    @endforeach
+                                @endforeach
+                            @endif
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            
         </section>
 
 
@@ -159,7 +158,6 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
 <script>
   $(function () {
     //Initialize Select2 Elements

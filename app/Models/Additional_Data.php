@@ -14,6 +14,6 @@ class Additional_Data extends Model
     ];
     
     public function users(){
-        return $this->hasOne('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 }
