@@ -35,7 +35,9 @@ Route::group(['middleware'=>['auth']], function () {
     Route::post('/user/delete-event/{event_start}/{user_name}', [UserController::class, 'destroy']);
 
     Route::get('/user/profil', [UserController::class, 'profil']);
+    Route::post('/user/profil/edit', [UserController::class, 'edit_Additional_Data']);
     Route::get('/user/profil/{title}', [UserController::class, 'lekarz_profil']);
+
 
     Route::group(['middleware'=>['lekarz']], function () {
         Route::get('/lekarz', [EventController::class, 'index'])->name('lekarz');

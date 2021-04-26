@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\WorkingHours;
 use App\Models\Event;
+use App\Models\Additional_Data;
 use Carbon\Carbon;
 use Auth;
 use Response;
@@ -121,6 +122,20 @@ class UserController extends Controller
             'events' => $events,
             'now' => $now
         ]);
+    }
+
+    public function edit_Additional_Data(Request $request)
+    {
+        $id = Auth::id();
+        $pesel = trim($request->get('pesel'));
+        $phone_number = trim($request->get('phone_number'));
+
+        $where = array('pacjent_id' => $id);
+        $updateArr = ['pacjent_id' => $id,'pesel' => $pesel,'phone_number' => $phone_number];
+        $additional_Data = Additional_Data::where($where)->firstOrNew($updateArr);
+        //dd($additional_Data);
+        $additional_Data->save();
+        return back();
     }
 
     public function lekarz_profil($title)

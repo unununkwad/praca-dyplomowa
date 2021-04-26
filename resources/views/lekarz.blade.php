@@ -1,7 +1,42 @@
 <x-app-layout>
 
 
-<!-- Fullcalendar -->
+
+
+    <div class="container">
+
+        <div class="panel panel-primary">
+            <x-slot name="header">
+            <div class="row">
+                    <div class="col-md-6">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Spotkania z pacjentami') }}
+                </h2>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-primary btn-lg" href="/user/profil">
+                            Osobisty profil pacjenta
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-primary btn-lg" href="/working-hours">
+                            Ustaw godziny pracy
+                        </a>
+                    </div>
+                    </div>
+            </x-slot>
+            <div class="panel-body" >
+                <div class="response alert alert-success mt-2" style="display: none;"></div><br>
+                    <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Fullcalendar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
@@ -39,7 +74,7 @@
                 slotLabelFormat: 'H(:mm)a',
                 slotMinutes: 15,
                 defaultView: "agendaWeek",
-                navLinks: true, // can click day/week names to navigate views
+                navLinks: true,
                 selectable: true,
                 selectHelper: false,
                 editable: false,
@@ -75,54 +110,6 @@
                     }
                 },
 
-                
-                selectable: false,
-                selectHelper: true,
-                // select: function (start, end, allDay) {
-                //     var title = prompt('Event Title:');
-    
-                //     if (title) {
-                //         var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                //         var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-    
-                //         $.ajax({
-                //             url: SITEURL + "/events/create",
-                //             data: 'title=' + title + '&start=' + start + '&end=' + end,
-                //             type: "POST",
-                //             success: function (data) {
-                //                 displayMessage("Added Successfully");
-                //                 $('#calendar').fullCalendar('removeEvents');
-                //                 $('#calendar').fullCalendar('refetchEvents' );
-                //             }
-                //         });
-                //         calendar.fullCalendar('renderEvent',
-                //                 {
-                //                     title: title,
-                //                     start: start,
-                //                     end: end,
-                //                     allDay: allDay
-                //                 },
-                //         true
-                //                 );
-                //     }
-                //     calendar.fullCalendar('unselect');
-                // },
-                
-                // eventDrop: function (event, delta) {
-                //             var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                //             var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-                //             $.ajax({
-                //                 url: SITEURL + '/events/update',
-                //                 data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                //                 type: "POST",
-                //                 success: function (response) {
-                //                     displayMessage("Updated Successfully");
-                //                 }
-                //             });
-                //         },
-                //
-
-
 
                 eventClick: function (event) {
                     location.href = SITEURL + '/user/profil/' + event.title;
@@ -130,30 +117,7 @@
             });
         });
 
-    
-        function displayMessage(message) {
-            $(".response").css('display','block');
-            $(".response").html(""+message+"");
-            setInterval(function() { $(".response").fadeOut(); }, 4000);
-        }
+
     </script>
-
-    <div class="container">
-
-        <div class="panel panel-primary">
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Spotkania z pacjentami') }}
-                <a class="btn btn-primary btn-lg float-right" href="/working-hours">
-                    Ustaw godziny pracy
-                </a>
-                </h2>
-            </x-slot>
-            <div class="panel-body" >
-                <div class="response alert alert-success mt-2" style="display: none;"></div><br>
-                    <div id='calendar'></div>
-            </div>
-        </div>
-    </div>
     
 </x-app-layout>

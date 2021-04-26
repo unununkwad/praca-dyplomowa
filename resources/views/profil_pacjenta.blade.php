@@ -7,7 +7,7 @@
                     {{ __('Profil pacjenta') }}
                 </h2>
             </div>
-            @if($role=="lekarz")
+            @if(isset($role) && $role=="lekarz")
                 <div class="col-md-6">
                     <a class="btn btn-outline-primary btn-lg float-right" href="/lekarz">
                         <i class="fas fa-arrow-circle-left"></i>
@@ -42,154 +42,174 @@
                                 </div>
                             </div>
 
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h2>
-                                            @if(isset($users))
-                                                @foreach ($users as $user)
-                                                    {{$user->name}}
-                                                @endforeach
-                                            @endif
-                                        </h2><br>
-                                        Numer pesel: <h3>987234598457</h3>
+
+                            <form action="/user/profil/edit" method="POST">
+                            @csrf
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>
+                                                @if(isset($users))
+                                                    @foreach ($users as $user)
+                                                        {{$user->name}}
+                                                    @endforeach
+                                                @endif
+                                            </h2><br>
+                                            Numer pesel: 
+                                            <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
+                                            <h3 id="pesel_Show">987234598457</h3>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            Numer telefonu: 
+                                            <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
+                                            <h4 id="email_Show">987234598457</h4><br>
+
+                                            Adres e-mail: 
+                                            <h4>
+                                                @if(isset($users))
+                                                    @foreach ($users as $user)
+                                                        {{$user->email}}
+                                                    @endforeach
+                                                @endif
+                                            </h4>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        Numer telefonu: <h4>987234598457</h4><br>
-                                        Adres e-mail: 
-                                        <h4>
-                                            @if(isset($users))
-                                                @foreach ($users as $user)
-                                                    {{$user->email}}
-                                                @endforeach
-                                            @endif
-                                        </h4>
-                                    </div>
+                                    @if(!isset($role))
+                                        <button type="button" class="btn btn-primary btn-lg float-right" id="button_Edit" onclick="show_TextBox()">
+                                            <i class="fas fa-edit">
+                                            </i>
+                                            Edytuj
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-lg float-right" id="button_Save" style="display: none;">
+                                            <i class="fas fa-edit">
+                                            </i>
+                                            Zapisz
+                                        </button>
+                                    @endif
                                 </div>
-                                <button type="button" class="btn btn-primary btn-lg float-right">
-                                    <i class="fas fa-edit">
-                                    </i>
-                                    Edytuj
-                                </button>
-                            </div>
+                            </form>
                         </div>
 
 
+                        @if(isset($role) && $role=="recepcja")
+                            </div>
+                            <div class="col-md-6">
+                        @endif
 
 
+                        @if(!isset($role) || $role=="recepcja")
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h3 class="card-title">Lista wszystkich terminów</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
 
-
-
-
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title">Lista wszystkich terminów</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                <div class="card-body">
+                                    <table class="table table-striped projects mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">
+                                                    #
+                                                </th>
+                                                <th style="width: 40%">
+                                                    Imię i nazwisko lekarza
+                                                </th>
+                                                <th style="width: 30%">
+                                                    Data i godzina terminu
+                                                </th>
+                                                <th style="width: 20%">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $user)
+                                                @if(isset($events))
+                                                    @foreach ($events as $event)
+                                                        <form action="/user/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
+                                                        @csrf
+                                                            <tr>
+                                                                <td>
+                                                                    #
+                                                                </td>
+                                                                <td>
+                                                                    <h5>
+                                                                        {{$event->name}}
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5>
+                                                                        {{$event->start}}
+                                                                    </h5>
+                                                                </td>
+                                                                <td class="project-actions text-right">
+                                                                    @if($event->start>$now)
+                                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                                            <i class="fas fa-trash-alt">
+                                                                            </i>
+                                                                            Usuń termin
+                                                                        </button>
+                                                                    @else
+                                                                        <button type="submit" class="btn btn-secondary btn-sm" disabled="true">
+                                                                            <i class="fas fa-exclamation-circle">
+                                                                            </i>
+                                                                            Termin minął
+                                                                        </button>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        </form>
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <a class="btn btn-primary btn-lg float-right" href="/user/termin">Nowy termin</a>
                                 </div>
                             </div>
-
-                            <div class="card-body">
-                                <table class="table table-striped projects mb-4">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 1%">
-                                                #
-                                            </th>
-                                            <th style="width: 40%">
-                                                Imię i nazwisko lekarza
-                                            </th>
-                                            <th style="width: 30%">
-                                                Data i godzina terminu
-                                            </th>
-                                            <th style="width: 20%">
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $user)
-                                            @if(isset($events))
-                                                @foreach ($events as $event)
-                                                    <form action="/user/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
-                                                    @csrf
-                                                        <tr>
-                                                            <td>
-                                                                #
-                                                            </td>
-                                                            <td>
-                                                                <h5>
-                                                                    {{$event->name}}
-                                                                </h5>
-                                                            </td>
-                                                            <td>
-                                                                <h5>
-                                                                    {{$event->start}}
-                                                                </h5>
-                                                            </td>
-                                                            <td class="project-actions text-right">
-                                                                @if($event->start>$now)
-                                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                                        <i class="fas fa-trash-alt">
-                                                                        </i>
-                                                                        Usuń termin
-                                                                    </button>
-                                                                @else
-                                                                    <button type="submit" class="btn btn-secondary btn-sm" disabled="true">
-                                                                        <i class="fas fa-exclamation-circle">
-                                                                        </i>
-                                                                        Termin minął
-                                                                    </button>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    </form>
-                                                @endforeach
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <a class="btn btn-primary btn-lg float-right" href="/user/termin">Nowy termin</a>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
 
 
 
-
-                    <div class="col-md-6">
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title">historia chorób</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h2>Imię i nazwisko</h2><br>
-                                        Numer pesel: <h3>987234598457</h3>
+                    @if(!isset($role) || $role=="lekarz")
+                        <div class="col-md-6">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h3 class="card-title">historia chorób</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
                                     </div>
-                                    <div class="col-md-6">
-                                        Numer telefonu: <h3>987234598457</h3><br>
-                                        Adres e-mail: <h3>nazwa@mail.com</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Imię i nazwisko</h2><br>
+                                            Numer pesel: <h3>987234598457</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Numer telefonu: <h3>987234598457</h3><br>
+                                            Adres e-mail: <h3>nazwa@mail.com</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
 
@@ -238,7 +258,38 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
+<script>
+function show_TextBox() {
+  var pesel_Edit = document.getElementById("pesel_Edit");
+  var pesel_Show = document.getElementById("pesel_Show");
+  var email_Edit = document.getElementById("email_Edit");
+  var email_Show = document.getElementById("email_Show");
+  var button_Edit = document.getElementById("button_Edit");
+  var button_Save = document.getElementById("button_Save");
+  
+  pesel_Edit.style.display = "block";
+  pesel_Show.style.display = "none";
+  email_Edit.style.display = "block";
+  email_Show.style.display = "none";
+  button_Save.style.display = "block";
+  button_Edit.style.display = "none";
+}
+</script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
 
 
 </x-app-layout>
