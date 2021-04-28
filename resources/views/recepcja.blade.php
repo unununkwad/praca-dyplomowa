@@ -1,18 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Wyszukaj pacjenta') }}
-        </h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Wyszukaj pacjenta') }}
+                </h2>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-primary btn-lg float-right" href="/user/profil">
+                    Osobisty profil pacjenta
+                </a>
+            </div>
+        </div>
     </x-slot>
 
     <section class="content">
     @if(isset($brak_wyniku) && isset($pesel))
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fas fa-ban"></i> Wprowadzono niepoprawny PESEL!</h5>
-                </div>
-            @endif
-        <div class="container-fluid">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Wprowadzono niepoprawny PESEL!</h5>
+        </div>
+    @endif
+    <div class="container-fluid">
 
 
 
@@ -27,9 +36,9 @@
                                 <div class="card-body">
                                     <label>Wprowadź PESEL:</label>
                                     @if(isset($brak_wyniku) && isset($pesel))
-                                    <input type="text" name="pesel" class="form-control" value="{{$pesel}}">
+                                    <input type="number" name="pesel" class="form-control" value="{{$pesel}}" min="10000000000" max="99999999999">
                                     @else
-                                    <input type="text" name="pesel" class="form-control">
+                                    <input type="number" name="pesel" class="form-control" min="10000000000" max="99999999999">
                                     @endif
                                 </div>
 

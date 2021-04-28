@@ -27,8 +27,8 @@
 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
 
 
         <section class="content pt-3">
@@ -37,7 +37,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card card-default">
+                        <div class="card card-info">
                             <div class="card-header">
                                 <h3 class="card-title">Dane pacjenta</h3>
                                 <div class="card-tools">
@@ -68,31 +68,31 @@
                                                 @foreach ($additional_Data as $additional_Data1)
                                                     Numer pesel: 
                                                     @if($additional_Data1->pesel==0)
-                                                        <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
+                                                        <input type="number" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel" min="10000000000" max="99999999999">
                                                         <h3 id="pesel_Show">Nie podano</h3>
                                                     @else
-                                                        <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel" value="{{$additional_Data1->pesel}}">
+                                                        <input type="number" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel" value="{{$additional_Data1->pesel}}" min="10000000000" max="99999999999">
                                                         <h3 id="pesel_Show">{{$additional_Data1->pesel}}</h3>
                                                     @endif
                                         </div>
                                         <div class="col-md-6">
                                                     Numer telefonu:
                                                     @if($additional_Data1->phone_number==0)
-                                                        <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
+                                                        <input type="number" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu" min="100000000" max="999999999">
                                                         <h4 id="email_Show">Nie podano</h4><br>
                                                     @else
-                                                        <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu" value="{{$additional_Data1->phone_number}}">
+                                                        <input type="number" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu" value="{{$additional_Data1->phone_number}}" min="100000000" max="999999999">
                                                         <h4 id="email_Show">{{$additional_Data1->phone_number}}</h4><br>
                                                     @endif
                                                 @endforeach
                                             @else
                                                 Numer pesel: 
-                                                <input type="text" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel">
+                                                <input type="number" class="form-control" name="pesel" id="pesel_Edit" style="display: none;" placeholder="Wprowadź pesel" min="10000000000" max="99999999999">
                                                 <h3 id="pesel_Show">Nie podano</h3>
                                         </div>
                                         <div class="col-md-6">
                                                 Numer telefonu:
-                                                <input type="text" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu">
+                                                <input type="number" class="form-control" name="phone_number" id="email_Edit" style="display: none;" placeholder="Wprowadź numer telefonu" min="100000000" max="999999999">
                                                 <h4 id="email_Show">Nie podano</h4><br>
                                             @endif
 
@@ -135,7 +135,7 @@
 
 
                         @if(!isset($role) || $role=="recepcja")
-                            <div class="card card-default">
+                            <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">Lista wszystkich terminów</h3>
                                     <div class="card-tools">
@@ -207,7 +207,10 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <a class="btn btn-primary btn-lg float-right" href="/user/termin">Nowy termin</a>
+                                    <a class="btn btn-primary btn-lg float-right" href="/user/termin">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Nowy termin
+                                    </a>
                                 </div>
                             </div>
                         @endif
@@ -217,8 +220,8 @@
 
 
                     @if(!isset($role) || $role=="lekarz")
-                        <div class="col-md-6">
-                            <div class="card card-default">
+                        <div class="col-md-6" id="disease_List" style="display: block;">
+                            <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">historia chorób</h3>
                                     <div class="card-tools">
@@ -232,16 +235,100 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Imię i nazwisko</h2><br>
-                                            Numer pesel: <h3>987234598457</h3>
-                                        </div>
-                                        <div class="col-md-6">
-                                            Numer telefonu: <h3>987234598457</h3><br>
-                                            Adres e-mail: <h3>nazwa@mail.com</h3>
-                                        </div>
+                                    
+
+
+                                    @if(isset($role) && $role=="lekarz")
+                                        <a class="btn btn-primary btn-lg float-right" onclick=show_Disease()>
+                                            <i class="fas fa-plus-circle"></i>
+                                            Dodaj chorobę
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+
+
+                    @if(!isset($role) || $role=="lekarz")
+                        <div class="col-md-6" id="disease_New" style="display: none;">
+                            <div class="card card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Dodawanie choroby</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
                                     </div>
+                                </div>
+
+                                <div class="card-body">
+                                    @foreach ($users as $user)
+                                        <form action="/user/choroba/dodaj/{{$user->id}}" method="POST" role="add">
+                                        @csrf
+                                            <div class="form-group">
+                                                <label>Wywiad: objawy, rozpoznanie, leczenie i uwagi:</label>
+                                                <textarea class="form-control" rows="3" name="wywiad" style="margin-top: 0px; margin-bottom: 0px; height: 78px;"></textarea>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Numer statystyczny choroby:</label><br>
+                                                        <input type="number" name="nr_choroby" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Czy to pierwsze zachorowanie?</label><br>
+                                                        <select class="form-control" name="czy_pierwsze_zachorowanie" id="exampleFormControlSelect1">
+                                                            <option value="0">Nie</option>
+                                                            <option value="1">Tak</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Niezdolność do pracy</label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Od:</label>
+                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                                <input type="text" name="poczatek_choroby" class="form-control datetimepicker-input" data-target="#reservationdate">
+                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Do:</label>
+                                                            <div class="input-group date" id="reservationdate2" data-target-input="nearest">
+                                                                <input type="text" name="koniec_choroby" class="form-control datetimepicker-input" data-target="#reservationdate2">
+                                                                <div class="input-group-append" data-target="#reservationdate2" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if(isset($role) && $role=="lekarz")
+                                                @foreach ($users as $user)
+                                                    <button type="submit" class="btn btn-primary btn-lg float-right">
+                                                        <i class="fas fa-plus-circle"></i>
+                                                        Dodaj chorobę
+                                                    </button>
+                                                @endforeach
+                                            @endif
+                                        </form>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -268,30 +355,30 @@
 
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->
-<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
 <!-- Bootstrap4 Duallistbox -->
-<script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 <!-- InputMask -->
-<script src="../../plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
 <!-- date-range-picker -->
-<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- bootstrap color picker -->
-<script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Bootstrap Switch -->
-<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <!-- BS-Stepper -->
-<script src="../../plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<script src="/plugins/bs-stepper/js/bs-stepper.min.js"></script>
 <!-- dropzonejs -->
-<script src="../../plugins/dropzone/min/dropzone.min.js"></script>
+<script src="/plugins/dropzone/min/dropzone.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
@@ -332,22 +419,47 @@ function hide_Edit() {
   button_Back.style.display = "none";
   button_Edit.style.display = "block";
 }
+
+
+
+
+function show_Disease() {
+  var disease_List = document.getElementById("disease_List");
+  var disease_New = document.getElementById("disease_New");
+
+  
+  disease_List.style.display = "none";
+  disease_New.style.display = "block";
+}
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+
+    //Date picker
+    $('#reservationdate2').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+
 </script>
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.js"></script>
+<script src="/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="/dist/js/demo.js"></script>
 
 
 </x-app-layout>

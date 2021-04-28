@@ -8,20 +8,20 @@
         <div class="panel panel-primary">
             <x-slot name="header">
             <div class="row">
-                    <div class="col-md-6">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Spotkania z pacjentami') }}
-                </h2>
-                    </div>
-                    <div class="col-md-6">
-                        <a class="btn btn-primary btn-lg mr-2" href="/user/profil">
-                            Osobisty profil pacjenta
-                        </a>
-                        <a class="btn btn-primary btn-lg" href="/working-hours">
-                            Ustaw godziny pracy
-                        </a>
-                    </div>
-                    </div>
+                <div class="col-md-6">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Spotkania z pacjentami') }}
+                    </h2>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-primary btn-lg mr-2" href="/user/profil">
+                        Osobisty profil pacjenta
+                    </a>
+                    <a class="btn btn-primary btn-lg" href="/working-hours">
+                        Ustaw godziny pracy
+                    </a>
+                </div>
+            </div>
             </x-slot>
             <div class="panel-body" >
                 <div class="response alert alert-success mt-2" style="display: none;"></div><br>

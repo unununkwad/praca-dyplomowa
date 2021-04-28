@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\WorkingHours;
 use App\Models\Event;
 use App\Models\Additional_Data;
+use App\Models\Disease;
 use Carbon\Carbon;
 use Auth;
 use Response;
@@ -173,7 +174,7 @@ class UserController extends Controller
             ->orderBy('start', 'desc')
             ->get();
             
-            $additional_Data = Additional_Data::where('pacjent_id', '=', $user->$id)->get();
+            $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();
         }
 
 
@@ -189,4 +190,31 @@ class UserController extends Controller
             'role' => $role
         ]);
     }
+
+    public function add_Disease($pacjent_id, Request $request)
+    {
+        $lekarz_id = Auth::id();
+        $wywiad = trim($request->get('wywiad'));
+        $nr_choroby = trim($request->get('nr_choroby'));
+        $czy_pierwsze_zachorowanie = trim($request->get('czy_pierwsze_zachorowanie'));
+        $poczatek_choroby = trim($request->get('poczatek_choroby'));
+        $koniec_choroby = trim($request->get('koniec_choroby'));
+
+
+        $updateArr = [  'wywiad' => $wywiad,
+                        'nr_choroby' => $nr_choroby,
+                        'czy_pierwsze_zachorowanie' => $czy_pierwsze_zachorowanie,
+                        'poczatek_choroby' => $poczatek_choroby,
+                        'koniec_choroby' => $koniec_choroby,
+                        'lekarz_id' => $lekarz_id,
+                        'pacjent_id' => $pacjent_id
+                    ];
+
+        $disease = Disease::create($updateArr);
+        Response::json($disease);
+        
+        return back();
+
+    }
+    
 }

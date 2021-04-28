@@ -37,7 +37,7 @@ Route::group(['middleware'=>['auth']], function () {
 
     Route::get('/user/profil', [UserController::class, 'profil']);
     Route::post('/user/profil/edit', [UserController::class, 'edit_Additional_Data']);
-    Route::get('/user/profil/{title}', [UserController::class, 'lekarz_profil']);
+    Route::post('/user/choroba/dodaj/{pacjent_id}', [UserController::class, 'add_Disease']);
 
 
     Route::group(['middleware'=>['lekarz']], function () {
@@ -45,6 +45,7 @@ Route::group(['middleware'=>['auth']], function () {
         Route::post('/lekarz/create', [EventController::class, 'create'])->name('events.add');
         Route::post('/lekarz/update', [EventController::class, 'update']);
         Route::post('/lekarz/delete', [EventController::class, 'destroy']);
+        Route::get('/user/profil/{title}', [UserController::class, 'lekarz_profil']);
 
         Route::get('/working-hours', [WorkingHoursController::class, 'index'])->name('lekarz');
         Route::post('/working-hours/create', [WorkingHoursController::class, 'create']);
