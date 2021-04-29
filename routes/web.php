@@ -30,7 +30,7 @@ use App\Models\User;
 
 
 Route::group(['middleware'=>['auth']], function () {
-    Route::get('/pacjent/termin', [PacjentController::class, 'user']);
+    Route::get('/pacjent/termin', [PacjentController::class, 'terminy']);
     Route::get('/pacjent/search', [PacjentController::class, 'search']);
     Route::post('/pacjent/add-event/{lekarz}/{start}', [PacjentController::class, 'add_Event']);
     Route::post('/pacjent/delete-event/{event_start}/{user_name}', [PacjentController::class, 'delete_Event']);
@@ -59,6 +59,10 @@ Route::group(['middleware'=>['auth']], function () {
             return view('recepcja');
         });
         Route::get('/recepcja/search', [RecepcjaController::class, 'search']);
+        Route::get('/recepcja/search/{pesel}', [RecepcjaController::class, 'back_to_profil']);
+        Route::get('/recepcja/termin/{pesel}', [RecepcjaController::class, 'terminy']);
+        Route::post('/recepcja/add-event/{lekarz}/{start}/{pesel}', [RecepcjaController::class, 'add_Event']);
+        Route::post('/recepcja/delete-event/{event_start}/{user_name}', [RecepcjaController::class, 'delete_Event']);
     });
 
 

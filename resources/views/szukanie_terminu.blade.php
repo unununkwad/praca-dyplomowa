@@ -6,10 +6,17 @@
                 <h3 class="card-title">Wyszukaj termin spotkania</h3>
             </div>
             <div class="col-md-6">
-                <a class="btn btn-outline-primary btn-lg float-right" href="/pacjent/profil">
-                    <i class="fas fa-arrow-circle-left"></i>
-                    Wróć
-                </a>
+                @if(isset($pesel))
+                    <a class="btn btn-outline-primary btn-lg float-right" href="/recepcja/search/{{$pesel}}">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Wróć
+                    </a>
+                @else
+                    <a class="btn btn-outline-primary btn-lg float-right" href="/pacjent/profil">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Wróć
+                    </a>
+                @endif
             </div>
         </div>
     </x-slot>
@@ -82,10 +89,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(isset($DbDate))
+                            @if(isset($DbDate) && count($DbDate)>0)
                                 @foreach ($DbDate as $DbDate1)
                                     @foreach ($DbDate1->add15Min() as $Date)
-                                        <form action="/pacjent/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
+                                        @if(isset($pesel))
+                                            <form action="/recepcja/add-event/{{$DbDate1->id}}/{{$Date}}/{{$pesel}}" method="POST" role="add">
+                                        @else
+                                            <form action="/pacjent/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
+                                        @endif
                                         @csrf
                                             <tr>
                                                 <td>

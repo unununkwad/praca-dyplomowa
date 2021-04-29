@@ -175,7 +175,11 @@
                                             @foreach ($users as $user)
                                                 @if(isset($events))
                                                     @foreach ($events as $event)
-                                                        <form action="/pacjent/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
+                                                        @if(isset($pesel))
+                                                            <form action="/recepcja/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
+                                                        @else
+                                                            <form action="/pacjent/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
+                                                        @endif
                                                         @csrf
                                                             <tr>
                                                                 <td>
@@ -213,10 +217,19 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <a class="btn btn-primary btn-lg float-right" href="/pacjent/termin">
-                                        <i class="fas fa-plus-circle"></i>
-                                        Nowy termin
-                                    </a>
+                                    @if(isset($role) && $role=="recepcja")
+                                        @foreach ($users as $user)
+                                            <a class="btn btn-primary btn-lg float-right" href="/recepcja/termin/{{$user->pesel}}">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Nowy termin
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <a class="btn btn-primary btn-lg float-right" href="/pacjent/termin">
+                                            <i class="fas fa-plus-circle"></i>
+                                            Nowy termin
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @endif

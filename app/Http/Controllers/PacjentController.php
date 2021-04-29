@@ -15,7 +15,7 @@ use Response;
 
 class PacjentController extends Controller
 {
-    public function user()
+    public function terminy()
     {
         $now = Carbon::now()->format('Y-m-d');
         //dd($now);
@@ -24,7 +24,7 @@ class PacjentController extends Controller
                 ->leftJoin('users', 'user_id', '=', 'users.id')
                 ->orderBy('start', 'asc')
                 ->get();
-        //dd($users);
+        //dd($DbDate);
 
         return view('szukanie_terminu', [
             'users' => $users,
@@ -102,13 +102,14 @@ class PacjentController extends Controller
         return back();
     }
 
-
     public function profil()
     {
         $id = Auth::id();
         $users = User::with('roles')
                 ->where('id', '=', $id)
                 ->get();
+        
+        
         
         $events = Event::where('pacjent_id', '=', $id)
                 ->leftJoin('users', 'lekarz_id', '=', 'users.id')

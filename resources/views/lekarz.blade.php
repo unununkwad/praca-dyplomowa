@@ -73,7 +73,7 @@
                 slotMinutes: 15,
                 defaultView: "agendaWeek",
                 navLinks: true,
-                selectable: true,
+                selectable: false,
                 selectHelper: false,
                 editable: false,
                 //editable: true,
