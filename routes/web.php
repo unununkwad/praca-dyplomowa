@@ -93,9 +93,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [AdminController::class, 'dashboard']);
 
 Route::get('/', function () {
     return view('home');

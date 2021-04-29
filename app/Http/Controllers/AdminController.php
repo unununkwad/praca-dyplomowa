@@ -5,14 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use Auth;
 
 class AdminController extends Controller
 {
     public function index()
     {
         $users = User::with('roles')->get();
-        //dd($users);
         return view('admin', ['users' => $users]);
+    }
+    
+    public function dashboard()
+    {
+        $user_id = Auth::id();
+        $users = User::with('roles')
+                ->where('id', '=', $user_id)
+                ->get();
+        foreach($users as $user){
+            if($user->hasRole('admin')){
+                return view('dashboard');
+            }
+            else if($user->hasRole('lekarz')){
+                return redirect('/lekarz');
+            }
+            else if($user->hasRole('recepcja')){
+                return redirect('/recepcja');
+            }
+            else{
+                return redirect('/pacjent/profil');
+            }
+
+        }
     }
 
     public function giveAdmin($userId)

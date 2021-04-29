@@ -90,7 +90,7 @@ class PacjentController extends Controller
         $event = Event::insert($insertArr);   
         Response::json($event);
 
-        return redirect('/user/termin');
+        return redirect('/pacjent/termin');
     }
 
     public function delete_Event($event_start, $user_name)
