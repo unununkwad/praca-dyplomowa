@@ -109,6 +109,49 @@ class RecepcjaController extends Controller
         ]);
     }
 
+    public function szukanie_terminu($pesel, Request $request)
+    {
+        $users = User::with('roles')->get();
+        $lekarz = trim($request->get('lekarz'));
+        $Date = trim($request->get('Date'));
+
+
+        if ($lekarz == "Dowolny" && $Date == NULL){
+            $DbDate = WorkingHours::leftJoin('users', 'user_id', '=', 'users.id')
+                    ->orderBy('start', 'asc')
+                    ->get();
+        }
+        else if ($lekarz == "Dowolny"){
+            $DbDate = WorkingHours::where('start', 'LIKE', "{$Date}%")
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->orderBy('start', 'asc')
+                    ->get();
+        }
+        else if ($Date == NULL){
+            $DbDate = WorkingHours::where('name', '=', $lekarz)
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->orderBy('start', 'asc')
+                    ->get();
+        }
+        else{
+            $DbDate = WorkingHours::where('name', '=', $lekarz)
+                    ->where('start', 'LIKE', "{$Date}%")
+                    ->orderBy('start', 'asc')
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->get();
+        }
+
+        //dd($DbData);
+
+
+        //Date("Y:M:s", strtotime("30 minutes", strtotime($Date->time)));
+        return view('szukanie_terminu', [
+            'users' => $users,
+            'DbDate' => $DbDate,
+            'pesel' => $pesel
+        ]);
+    }
+
     public function add_Event($lekarz, $start, $pesel)
     {
         //dd($lekarz);
@@ -117,6 +160,7 @@ class RecepcjaController extends Controller
         foreach($additional_Data as $additional_Data1){
             $users = User::where('id', '=', $additional_Data1->pacjent_id)->get();
         }
+        
         foreach($users as $user){
         $id = $user->id;
         $pacjent = $user->name;
@@ -131,7 +175,7 @@ class RecepcjaController extends Controller
         $event = Event::insert($insertArr);   
         Response::json($event);
 
-        return redirect('/recepcja/termin/{$pesel}');
+        return redirect('/recepcja/termin/$pesel');
     }
 
     public function delete_Event($event_start, $user_name)

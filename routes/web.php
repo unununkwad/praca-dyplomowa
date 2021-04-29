@@ -31,7 +31,7 @@ use App\Models\User;
 
 Route::group(['middleware'=>['auth']], function () {
     Route::get('/pacjent/termin', [PacjentController::class, 'terminy']);
-    Route::get('/pacjent/search', [PacjentController::class, 'search']);
+    Route::get('/pacjent/termin/search', [PacjentController::class, 'search']);
     Route::post('/pacjent/add-event/{lekarz}/{start}', [PacjentController::class, 'add_Event']);
     Route::post('/pacjent/delete-event/{event_start}/{user_name}', [PacjentController::class, 'delete_Event']);
 
@@ -46,7 +46,7 @@ Route::group(['middleware'=>['auth']], function () {
         Route::post('/lekarz/create', [EventController::class, 'create'])->name('events.add');
         Route::post('/lekarz/update', [EventController::class, 'update']);
         Route::post('/lekarz/delete', [EventController::class, 'destroy']);
-        Route::get('/pacjent/profil/{title}', [PacjentController::class, 'lekarz_profil']);
+        Route::get('/lekarz/profil/{title}', [LekarzController::class, 'lekarz_profil']);
 
         Route::get('/working-hours', [WorkingHoursController::class, 'index'])->name('lekarz');
         Route::post('/working-hours/create', [WorkingHoursController::class, 'create']);
@@ -61,6 +61,7 @@ Route::group(['middleware'=>['auth']], function () {
         Route::get('/recepcja/search', [RecepcjaController::class, 'search']);
         Route::get('/recepcja/search/{pesel}', [RecepcjaController::class, 'back_to_profil']);
         Route::get('/recepcja/termin/{pesel}', [RecepcjaController::class, 'terminy']);
+        Route::get('/recepcja/termin/search/{pesel}', [RecepcjaController::class, 'szukanie_terminu']);
         Route::post('/recepcja/add-event/{lekarz}/{start}/{pesel}', [RecepcjaController::class, 'add_Event']);
         Route::post('/recepcja/delete-event/{event_start}/{user_name}', [RecepcjaController::class, 'delete_Event']);
     });

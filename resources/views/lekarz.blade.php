@@ -110,7 +110,7 @@
 
 
                 eventClick: function (event) {
-                    location.href = SITEURL + '/pacjent/profil/' + event.title;
+                    location.href = SITEURL + '/lekarz/profil/' + event.title;
                 }
             });
         });

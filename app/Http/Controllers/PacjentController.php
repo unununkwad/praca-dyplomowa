@@ -166,42 +166,6 @@ class PacjentController extends Controller
         return back();
     }
 
-    public function lekarz_profil($title)
-    {
-        $role = "lekarz";
-
-        $users = User::with('roles')
-                ->where('name', '=', $title)
-                ->get();
-        
-        foreach ($users as $user){
-            $events = Event::where('pacjent_id', '=', $user->id)
-                    ->leftJoin('users', 'lekarz_id', '=', 'users.id')
-                    ->orderBy('start', 'desc')
-                    ->get();
-            
-            $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();
-
-            $disease = Disease::where('pacjent_id', '=', $user->id)
-                    ->leftJoin('users', 'lekarz_id', '=', 'users.id')
-                    ->get();
-        }
-
-
-        //dd($disease);
-
-        $now = Carbon::now()->format('Y-m-d H:i:s');
-
-        return view('profil_pacjenta', [
-            'users' => $users,
-            'events' => $events,
-            'now' => $now,
-            'additional_Data' => $additional_Data,
-            'role' => $role,
-            'disease' => $disease
-        ]);
-    }
-
     public function add_Disease($pacjent_id, Request $request)
     {
         $lekarz_id = Auth::id();

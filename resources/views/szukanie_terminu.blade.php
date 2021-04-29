@@ -28,7 +28,11 @@
             <div class="container-fluid">
                 <div class="card-body">
                     <div class="col-12">
-                        <form action="/pacjent/search" method="GET" role="search">
+                        @if(isset($pesel))
+                            <form action="/recepcja/termin/search/{{$pesel}}" method="GET" role="search">
+                        @else
+                            <form action="/pacjent/termin/search" method="GET" role="search">
+                        @endif
                             <div class="form-group">
                                 <label>Wybierz lekarza:</label>
                                 <select class="form-control select2" style="width: 100%;" name="lekarz">
