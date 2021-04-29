@@ -6,7 +6,7 @@
                 <h3 class="card-title">Wyszukaj termin spotkania</h3>
             </div>
             <div class="col-md-6">
-                <a class="btn btn-outline-primary btn-lg float-right" href="/user/profil">
+                <a class="btn btn-outline-primary btn-lg float-right" href="/pacjent/profil">
                     <i class="fas fa-arrow-circle-left"></i>
                     Wróć
                 </a>
@@ -21,7 +21,7 @@
             <div class="container-fluid">
                 <div class="card-body">
                     <div class="col-12">
-                        <form action="/user/search" method="GET" role="search">
+                        <form action="/pacjent/search" method="GET" role="search">
                             <div class="form-group">
                                 <label>Wybierz lekarza:</label>
                                 <select class="form-control select2" style="width: 100%;" name="lekarz">
@@ -85,7 +85,7 @@
                             @if(isset($DbDate))
                                 @foreach ($DbDate as $DbDate1)
                                     @foreach ($DbDate1->add15Min() as $Date)
-                                        <form action="/user/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
+                                        <form action="/pacjent/add-event/{{$DbDate1->id}}/{{$Date}}" method="POST" role="add">
                                         @csrf
                                             <tr>
                                                 <td>

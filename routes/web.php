@@ -5,7 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LekarzController;
 use App\Http\Controllers\WorkingHoursController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\PacjentController;
 use App\Http\Controllers\RecepcjaController;
 use App\Models\User;
 /*
@@ -30,14 +30,15 @@ use App\Models\User;
 
 
 Route::group(['middleware'=>['auth']], function () {
-    Route::get('/user/termin', [UserController::class, 'user']);
-    Route::get('/user/search', [UserController::class, 'search']);
-    Route::post('/user/add-event/{lekarz}/{start}', [UserController::class, 'addEvent']);
-    Route::post('/user/delete-event/{event_start}/{user_name}', [UserController::class, 'destroy']);
+    Route::get('/pacjent/termin', [PacjentController::class, 'user']);
+    Route::get('/pacjent/search', [PacjentController::class, 'search']);
+    Route::post('/pacjent/add-event/{lekarz}/{start}', [PacjentController::class, 'add_Event']);
+    Route::post('/pacjent/delete-event/{event_start}/{user_name}', [PacjentController::class, 'delete_Event']);
 
-    Route::get('/user/profil', [UserController::class, 'profil']);
-    Route::post('/user/profil/edit', [UserController::class, 'edit_Additional_Data']);
-    Route::post('/user/choroba/dodaj/{pacjent_id}', [UserController::class, 'add_Disease']);
+    Route::get('/pacjent/profil', [PacjentController::class, 'profil']);
+    Route::post('/pacjent/profil/edit', [PacjentController::class, 'edit_Additional_Data']);
+    Route::post('/pacjent/choroba/dodaj/{pacjent_id}', [PacjentController::class, 'add_Disease']);
+    Route::post('/pacjent/choroba/usun/{id}', [PacjentController::class, 'delete_Disease']);
 
 
     Route::group(['middleware'=>['lekarz']], function () {
@@ -45,7 +46,7 @@ Route::group(['middleware'=>['auth']], function () {
         Route::post('/lekarz/create', [EventController::class, 'create'])->name('events.add');
         Route::post('/lekarz/update', [EventController::class, 'update']);
         Route::post('/lekarz/delete', [EventController::class, 'destroy']);
-        Route::get('/user/profil/{title}', [UserController::class, 'lekarz_profil']);
+        Route::get('/pacjent/profil/{title}', [PacjentController::class, 'lekarz_profil']);
 
         Route::get('/working-hours', [WorkingHoursController::class, 'index'])->name('lekarz');
         Route::post('/working-hours/create', [WorkingHoursController::class, 'create']);

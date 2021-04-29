@@ -19,7 +19,7 @@
     Home Page
 </a>
 
-<a class="btn btn-primary btn-lg" href="/user/profil">
+<a class="btn btn-primary btn-lg" href="/pacjent/profil">
     User Page
 </a>
 

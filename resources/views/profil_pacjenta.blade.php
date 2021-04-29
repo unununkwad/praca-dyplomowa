@@ -37,6 +37,8 @@
 
                 <div class="row">
                     <div class="col-md-6">
+                        <!-- Panel z Danymi pacjenta -->
+                        <!-- Widzą go wszystkie role, ale edytować może tylko pacjent -->
                         <div class="card card-info">
                             <div class="card-header">
                                 <h3 class="card-title">Dane pacjenta</h3>
@@ -51,7 +53,7 @@
                             </div>
 
 
-                            <form action="/user/profil/edit" method="POST">
+                            <form action="/pacjent/profil/edit" method="POST">
                             @csrf
                                 <div class="card-body">
                                     <div class="row">
@@ -134,6 +136,10 @@
                         @endif
 
 
+
+
+                        <!-- Panel z listą terminów -->
+                        <!-- Widzi go recepcja i pacjent -->
                         @if(!isset($role) || $role=="recepcja")
                             <div class="card card-info">
                                 <div class="card-header">
@@ -169,7 +175,7 @@
                                             @foreach ($users as $user)
                                                 @if(isset($events))
                                                     @foreach ($events as $event)
-                                                        <form action="/user/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
+                                                        <form action="/pacjent/delete-event/{{$event->start}}/{{$user->name}}" method="POST" role="delete">
                                                         @csrf
                                                             <tr>
                                                                 <td>
@@ -207,7 +213,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <a class="btn btn-primary btn-lg float-right" href="/user/termin">
+                                    <a class="btn btn-primary btn-lg float-right" href="/pacjent/termin">
                                         <i class="fas fa-plus-circle"></i>
                                         Nowy termin
                                     </a>
@@ -219,6 +225,8 @@
 
 
 
+                    <!-- Panel z historią chorób -->
+                    <!-- Widzi go tylko lekarz i pacjent -->
                     @if(!isset($role) || $role=="lekarz")
                         <div class="col-md-6" id="disease_List" style="display: block;">
                             <div class="card card-info">
@@ -235,9 +243,86 @@
                                 </div>
 
                                 <div class="card-body">
-                                    
-
-
+                                    @if(isset($disease))
+                                        @foreach ($disease as $disease1)
+                                            <table class="table table-striped projects mb-4 border border-info">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 100%">
+                                                            <form action="/pacjent/choroba/usun/{{$disease1->disease_id}}" method="POST" role="delete">
+                                                            @csrf
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        Dodał: {{$disease1->name}}
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        Data dodania: {{$disease1->created_at}}
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        @if(isset($role) && $role=="lekarz")
+                                                                            <button type="submit" class="btn btn-outline-danger btn-sm float-right">
+                                                                                <i class="fas fa-trash-alt"></i>
+                                                                                Usuń
+                                                                            </button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <label>Wywiad: objawy, rozpoznanie, leczenie i uwagi:</label>
+                                                            <textarea class="form-control" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 78px;" disabled>{{$disease1->wywiad}}</textarea>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Numer statystyczny choroby:</label><br>
+                                                                        <input type="number" class="form-control" value="{{$disease1->nr_choroby}}" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Czy to pierwsze zachorowanie?</label><br>
+                                                                        @if($disease1->czy_pierwsze_zachorowanie == 0)
+                                                                            <input type="Text" class="form-control" value="Nie" disabled>
+                                                                        @else
+                                                                            <input type="Text" class="form-control" value="Tak" disabled>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Niezdolność do pracy</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Od:</label>
+                                                                            <div class="input-group date" data-target-input="nearest">
+                                                                                <input type="text" class="form-control" value="{{date('Y-m-d', strtotime($disease1->poczatek_choroby))}}" disabled>
+                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Do:</label>
+                                                                            <div class="input-group date" data-target-input="nearest">
+                                                                                <input type="text" class="form-control" value="{{date('Y-m-d', strtotime($disease1->koniec_choroby))}}" disabled>
+                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        @endforeach
+                                    @endif
                                     @if(isset($role) && $role=="lekarz")
                                         <a class="btn btn-primary btn-lg float-right" onclick=show_Disease()>
                                             <i class="fas fa-plus-circle"></i>
@@ -250,7 +335,8 @@
                     @endif
 
 
-
+                    <!-- Panel dodawania choroby do historii -->
+                    <!-- Może to robić tylko lekarz -->
                     @if(!isset($role) || $role=="lekarz")
                         <div class="col-md-6" id="disease_New" style="display: none;">
                             <div class="card card-success">
@@ -268,7 +354,7 @@
 
                                 <div class="card-body">
                                     @foreach ($users as $user)
-                                        <form action="/user/choroba/dodaj/{{$user->id}}" method="POST" role="add">
+                                        <form action="/pacjent/choroba/dodaj/{{$user->id}}" method="POST" role="add">
                                         @csrf
                                             <div class="form-group">
                                                 <label>Wywiad: objawy, rozpoznanie, leczenie i uwagi:</label>
@@ -319,14 +405,16 @@
                                                 </div>
                                             </div>
 
-                                            @if(isset($role) && $role=="lekarz")
-                                                @foreach ($users as $user)
-                                                    <button type="submit" class="btn btn-primary btn-lg float-right">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                        Dodaj chorobę
-                                                    </button>
-                                                @endforeach
-                                            @endif
+
+                                            <button type="submit" class="btn btn-primary btn-lg float-right">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Dodaj chorobę
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-lg float-right mr-3""  onclick="hide_Disease()">
+                                            <i class="fas fa-arrow-left">
+                                            </i>
+                                            Wróć
+                                            </button>
                                         </form>
                                     @endforeach
                                 </div>
@@ -430,6 +518,15 @@ function show_Disease() {
   
   disease_List.style.display = "none";
   disease_New.style.display = "block";
+}
+
+function hide_Disease() {
+  var disease_List = document.getElementById("disease_List");
+  var disease_New = document.getElementById("disease_New");
+
+  
+  disease_List.style.display = "block";
+  disease_New.style.display = "none";
 }
 
     //Date picker

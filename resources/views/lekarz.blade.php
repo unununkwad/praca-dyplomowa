@@ -14,7 +14,7 @@
                     </h2>
                 </div>
                 <div class="col-md-6">
-                    <a class="btn btn-primary btn-lg mr-2" href="/user/profil">
+                    <a class="btn btn-primary btn-lg mr-2" href="/pacjent/profil">
                         Osobisty profil pacjenta
                     </a>
                     <a class="btn btn-primary btn-lg" href="/working-hours">
@@ -110,7 +110,7 @@
 
 
                 eventClick: function (event) {
-                    location.href = SITEURL + '/user/profil/' + event.title;
+                    location.href = SITEURL + '/pacjent/profil/' + event.title;
                 }
             });
         });

@@ -21,8 +21,8 @@ class RecepcjaController extends Controller
 
 
         $users = Additional_Data::where('pesel', '=', $pesel)
-        ->join('users', 'pacjent_id', '=', 'users.id')
-        ->get();
+                ->join('users', 'pacjent_id', '=', 'users.id')
+                ->get();
         
         if(count($users)==0){
             $brak_wyniku = "brak_wyniku";
@@ -34,9 +34,9 @@ class RecepcjaController extends Controller
 
         foreach($users as $user){
             $events = Event::where('pacjent_id', '=', $user->id)
-            ->leftJoin('users', 'lekarz_id', '=', 'users.id')
-            ->orderBy('start', 'desc')
-            ->get();
+                    ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+                    ->orderBy('start', 'desc')
+                    ->get();
             //dd($users);
             
             $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();

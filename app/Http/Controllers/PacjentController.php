@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Auth;
 use Response;
 
-class UserController extends Controller
+class PacjentController extends Controller
 {
     public function user()
     {
@@ -21,12 +21,12 @@ class UserController extends Controller
         //dd($now);
         $users = User::with('roles')->get();
         $DbDate = WorkingHours::where('start', 'LIKE', "{$now}%")
-        ->leftJoin('users', 'user_id', '=', 'users.id')
-        ->orderBy('start', 'asc')
-        ->get();
+                ->leftJoin('users', 'user_id', '=', 'users.id')
+                ->orderBy('start', 'asc')
+                ->get();
         //dd($users);
 
-        return view('user', [
+        return view('szukanie_terminu', [
             'users' => $users,
             'DbDate' => $DbDate
         ]);
@@ -41,41 +41,41 @@ class UserController extends Controller
 
         if ($lekarz == "Dowolny" && $Date == NULL){
             $DbDate = WorkingHours::leftJoin('users', 'user_id', '=', 'users.id')
-            ->orderBy('start', 'asc')
-            ->get();
+                    ->orderBy('start', 'asc')
+                    ->get();
         }
         else if ($lekarz == "Dowolny"){
             $DbDate = WorkingHours::where('start', 'LIKE', "{$Date}%")
-            ->leftJoin('users', 'user_id', '=', 'users.id')
-            ->orderBy('start', 'asc')
-            ->get();
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->orderBy('start', 'asc')
+                    ->get();
         }
         else if ($Date == NULL){
             $DbDate = WorkingHours::where('name', '=', $lekarz)
-            ->leftJoin('users', 'user_id', '=', 'users.id')
-            ->orderBy('start', 'asc')
-            ->get();
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->orderBy('start', 'asc')
+                    ->get();
         }
         else{
             $DbDate = WorkingHours::where('name', '=', $lekarz)
-            ->where('start', 'LIKE', "{$Date}%")
-            ->orderBy('start', 'asc')
-            ->leftJoin('users', 'user_id', '=', 'users.id')
-            ->get();
+                    ->where('start', 'LIKE', "{$Date}%")
+                    ->orderBy('start', 'asc')
+                    ->leftJoin('users', 'user_id', '=', 'users.id')
+                    ->get();
         }
 
         //dd($DbData);
 
 
         //Date("Y:M:s", strtotime("30 minutes", strtotime($Date->time)));
-        return view('user', [
+        return view('szukanie_terminu', [
             'users' => $users,
             'DbDate' => $DbDate
         ]);
     }
 
 
-    public function addEvent($lekarz, $start)
+    public function add_Event($lekarz, $start)
     {
         //dd($lekarz);
         $end = date("Y-m-d H:i:s", strtotime($start) + 15 * 60);
@@ -93,7 +93,7 @@ class UserController extends Controller
         return redirect('/user/termin');
     }
 
-    public function destroy($event_start, $user_name)
+    public function delete_Event($event_start, $user_name)
     {
         $event = Event::where('start',$event_start)->delete();
    
@@ -107,16 +107,20 @@ class UserController extends Controller
     {
         $id = Auth::id();
         $users = User::with('roles')
-        ->where('id', '=', $id)
-        ->get();
+                ->where('id', '=', $id)
+                ->get();
         
-        $events = Event::where('pacjent_id', '=', "{$id}%")
-        ->leftJoin('users', 'lekarz_id', '=', 'users.id')
-        ->orderBy('start', 'desc')
-        ->get();
+        $events = Event::where('pacjent_id', '=', $id)
+                ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+                ->orderBy('start', 'desc')
+                ->get();
         //dd($users);
         
         $additional_Data = Additional_Data::where('pacjent_id', '=', $id)->get();
+
+        $disease = Disease::where('pacjent_id', '=', $id)
+                ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+                ->get();
 
         $now = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -124,7 +128,8 @@ class UserController extends Controller
             'users' => $users,
             'events' => $events,
             'additional_Data' => $additional_Data,
-            'now' => $now
+            'now' => $now,
+            'disease' => $disease
         ]);
     }
 
@@ -165,20 +170,24 @@ class UserController extends Controller
         $role = "lekarz";
 
         $users = User::with('roles')
-        ->where('name', '=', $title)
-        ->get();
+                ->where('name', '=', $title)
+                ->get();
         
         foreach ($users as $user){
-            $events = Event::where('pacjent_id', '=', "{$user->id}%")
-            ->leftJoin('users', 'lekarz_id', '=', 'users.id')
-            ->orderBy('start', 'desc')
-            ->get();
+            $events = Event::where('pacjent_id', '=', $user->id)
+                    ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+                    ->orderBy('start', 'desc')
+                    ->get();
             
             $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();
+
+            $disease = Disease::where('pacjent_id', '=', $user->id)
+                    ->leftJoin('users', 'lekarz_id', '=', 'users.id')
+                    ->get();
         }
 
 
-        //dd($role);
+        //dd($disease);
 
         $now = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -187,7 +196,8 @@ class UserController extends Controller
             'events' => $events,
             'now' => $now,
             'additional_Data' => $additional_Data,
-            'role' => $role
+            'role' => $role,
+            'disease' => $disease
         ]);
     }
 
@@ -216,5 +226,17 @@ class UserController extends Controller
         return back();
 
     }
-    
+
+    public function delete_Disease($id)
+    {
+        $user_id = Auth::id();
+        $disease = Disease::where('disease_id', '=', $id)
+                ->where('lekarz_id', '=', $user_id)
+                ->delete();
+        Response::json($disease);
+        
+        return back();
+
+    }
+
 }

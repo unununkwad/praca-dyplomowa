@@ -7,7 +7,7 @@
                 </h2>
             </div>
             <div class="col-md-6">
-                <a class="btn btn-primary btn-lg float-right" href="/user/profil">
+                <a class="btn btn-primary btn-lg float-right" href="/pacjent/profil">
                     Osobisty profil pacjenta
                 </a>
             </div>
@@ -16,9 +16,9 @@
 
     <section class="content">
     @if(isset($brak_wyniku) && isset($pesel))
-        <div class="alert alert-danger alert-dismissible">
+        <div class="alert alert-danger alert-dismissible position-absolute w-100">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><i class="icon fas fa-ban"></i> Wprowadzono niepoprawny PESEL!</h5>
+            <center><h5><i class="icon fas fa-ban"></i> Wprowadzono niepoprawny PESEL!</h5></center>
         </div>
     @endif
     <div class="container-fluid">
