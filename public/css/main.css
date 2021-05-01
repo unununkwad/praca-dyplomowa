@@ -3,6 +3,7 @@ html {
 }
 body{
     font-family: 'Roboto', sans-serif;
+    background-color: rgba(0, 0, 0, 0.4) !important;
 }
 .nav-back{
     background: rgba(190,190,190, 0.95);
@@ -23,7 +24,8 @@ body{
 .navbar-toggler{
     outline: none !important;
 }
-/* Hero Section */
+
+/* Hero  */
 #hero{
     width: 100%;
     height: 100vh;
@@ -49,10 +51,10 @@ body{
     font-size: 48px;
     font-weight: bold;
     line-height: 56px;
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.9);
 }
 #hero h2{
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 40px;
     font-size: 15px;
     font-weight: light;
@@ -76,43 +78,103 @@ body{
     text-decoration: none;
     color: #ffffff;
 }
-/* usługi */
-.service{
+
+/* o nas */
+  .about-section {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .about-heading {
+    text-transform: uppercase;
+  }
+  
+  .about-heading .about-heading-upper {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  
+  .about-heading .about-heading-lower {
+    display: block;
+    font-size: 38px;
+    font-weight: 100;
+  }
+  
+  .bg-faded {
+    background-color: rgba(1.7, 33.5, 86.9, 0.9);
+  }
+
+  .about {
+    position: relative;
+  }
+  
+  @media (min-width: 992px) {
+    .about .about-img {
+      width: 75%;
+      float: right;
+    }
+    .about .about-text {
+      left: 0;
+      width: 60%;
+      margin-top: 3rem;
+      position: absolute;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .about .about-text {
+      width: 45%;
+    }
+  }
+
+/* kontakt */
+  .contact-box {
+    color: #fff;
     text-align: center;
-    padding: 70px 20px 80px 20px;
-    background: rgba(1.7, 33.5, 86.9, 0.9);
-}
-.service .icon{
-    margin: 0 auto;
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background: #ffffff;
-    border-radius: 50px;
-}
-.service .icon i{
+    box-shadow: 0 0 20px rgba(65, 76, 100, 0.05);
+    padding: 20px 0 30px 0;
+    background:rgba(1.7, 33.5, 86.9, 0.9);
+  }
+  
+  .contact-box i {
     font-size: 32px;
-    line-height: 1;
-    position: relative;
-    color: rgba(1.7, 33.5, 86.9, 1);
-}
-.service h4{
-    margin: 10px 0 15px 0;
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    padding: 8px;
+  }
+  
+  .contact-box h3 {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.5);
     font-weight: bold;
-    font-size: 22px;
-    color: #ffffff;
-}
-.service p{
+    margin: 10px 0;
+  }
+  
+  .contact-box p {
+    padding: 0;
     line-height: 24px;
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 0;
-    color: rgba(190,190,190, 1);
-}
-.service p{
-    line-height: 24px;
-    font-size: 15px;
-    margin-bottom: 0;
-}
+  }
+  .contact button{
+    background: rgba(1.7, 33.5, 86.9, 0.9);
+    border: none;
+    padding: 10px;
+  }
+
+ .contact button:hover{
+   background: rgba(1.7, 33.5, 86.9, 0.9);
+   color: #fff;
+ } 
+
+/* stopka */
+ .footer {
+    text-align: center;
+    font-size: 0.9rem;
+    background:rgba(1.7, 33.5, 86.9, 0.9);
+  }
+  .footer .text{
+    color: #fff;
+  }
