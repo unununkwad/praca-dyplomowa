@@ -21,7 +21,6 @@ class RecepcjaController extends Controller
             $pesel = 0;
         }
 
-
         $users = Additional_Data::where('pesel', '=', $pesel)
                 ->join('users', 'pacjent_id', '=', 'users.id')
                 ->get();
@@ -39,7 +38,6 @@ class RecepcjaController extends Controller
                     ->leftJoin('users', 'lekarz_id', '=', 'users.id')
                     ->orderBy('start', 'desc')
                     ->get();
-            //dd($users);
             
             $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();
         }
@@ -79,7 +77,6 @@ class RecepcjaController extends Controller
                     ->leftJoin('users', 'lekarz_id', '=', 'users.id')
                     ->orderBy('start', 'desc')
                     ->get();
-            //dd($users);
             
             $additional_Data = Additional_Data::where('pacjent_id', '=', $user->id)->get();
         }
@@ -141,10 +138,6 @@ class RecepcjaController extends Controller
                     ->get();
         }
 
-        //dd($DbData);
-
-
-        //Date("Y:M:s", strtotime("30 minutes", strtotime($Date->time)));
         return view('szukanie_terminu', [
             'users' => $users,
             'DbDate' => $DbDate,
@@ -154,7 +147,6 @@ class RecepcjaController extends Controller
 
     public function add_Event($lekarz, $start, $pesel)
     {
-        //dd($lekarz);
         $end = date("Y-m-d H:i:s", strtotime($start) + 15 * 60);
         $additional_Data = Additional_Data::where('pesel', '=', $pesel)->get();
         foreach($additional_Data as $additional_Data1){
@@ -182,7 +174,6 @@ class RecepcjaController extends Controller
     {
         $event = Event::where('start',$event_start)->delete();
    
-        //dd($event_id);
         Response::json($event);
         return back();
     }

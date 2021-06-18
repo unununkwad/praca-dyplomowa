@@ -41,44 +41,32 @@ class AdminController extends Controller
     public function giveAdmin($userId)
     {
         $user = User::where('id', $userId)->firstorFail();
-
         $adminRole = Role::where('name', 'admin')->FirstorFail();
-
         $user->roles()->attach($adminRole->id);
-
         return redirect('/admin');
     }
 
     public function removeAdmin($userId)
     {
         $user = User::where('id', $userId)->firstorFail();
-
         $adminRole = Role::where('name', 'admin')->FirstorFail();
-
         $user->roles()->detach($adminRole->id);
-
         return redirect('/admin');
     }
 
     public function giveLekarz($userId)
     {
         $user = User::where('id', $userId)->firstorFail();
-
         $lekarzRole = Role::where('name', 'lekarz')->FirstorFail();
-
         $user->roles()->attach($lekarzRole->id);
-
         return redirect('/admin');
     }
 
     public function removeLekarz($userId)
     {
         $user = User::where('id', $userId)->firstorFail();
-
         $lekarzRole = Role::where('name', 'lekarz')->FirstorFail();
-
         $user->roles()->detach($lekarzRole->id);
-
         return redirect('/admin');
     }
 

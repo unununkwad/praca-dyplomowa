@@ -43,7 +43,7 @@
                 @if (Route::has('login'))
                 <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
                     @auth
-                        <a href="/pacjent/termin" class="main-btn">Umów się na spotkanie</a>
+                        <a href="/dashboard" class="main-btn">Przejdź do profilu użytkownika</a>
                     
                 @else
                     <a href="{{ route('login') }}" class="main-btn">Umów się na spotkanie</a>

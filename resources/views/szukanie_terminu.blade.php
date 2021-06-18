@@ -3,7 +3,9 @@
     <x-slot name="header">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="card-title">Wyszukaj termin spotkania</h3>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Wyszukaj termin spotkania
+                </h2>
             </div>
             <div class="col-md-6">
                 @if(isset($pesel))

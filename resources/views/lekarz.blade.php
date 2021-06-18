@@ -78,6 +78,7 @@
                 editable: false,
                 //editable: true,
                 eventLimit: true,
+                allDaySlot: false,
                 
                 events: SITEURL + "/lekarz",
                 displayEventTime: true,

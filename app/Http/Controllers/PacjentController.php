@@ -18,13 +18,11 @@ class PacjentController extends Controller
     public function terminy()
     {
         $now = Carbon::now()->format('Y-m-d');
-        //dd($now);
         $users = User::with('roles')->get();
         $DbDate = WorkingHours::where('start', 'LIKE', "{$now}%")
                 ->leftJoin('users', 'user_id', '=', 'users.id')
                 ->orderBy('start', 'asc')
                 ->get();
-        //dd($DbDate);
 
         return view('szukanie_terminu', [
             'users' => $users,
@@ -37,7 +35,6 @@ class PacjentController extends Controller
         $users = User::with('roles')->get();
         $lekarz = trim($request->get('lekarz'));
         $Date = trim($request->get('Date'));
-
 
         if ($lekarz == "Dowolny" && $Date == NULL){
             $DbDate = WorkingHours::leftJoin('users', 'user_id', '=', 'users.id')
@@ -64,10 +61,6 @@ class PacjentController extends Controller
                     ->get();
         }
 
-        //dd($DbData);
-
-
-        //Date("Y:M:s", strtotime("30 minutes", strtotime($Date->time)));
         return view('szukanie_terminu', [
             'users' => $users,
             'DbDate' => $DbDate
@@ -77,7 +70,6 @@ class PacjentController extends Controller
 
     public function add_Event($lekarz, $start)
     {
-        //dd($lekarz);
         $end = date("Y-m-d H:i:s", strtotime($start) + 15 * 60);
         $id = Auth::id();
         $pacjent = Auth::user()->name;
@@ -97,7 +89,6 @@ class PacjentController extends Controller
     {
         $event = Event::where('start',$event_start)->delete();
    
-        //dd($event_id);
         Response::json($event);
         return back();
     }
@@ -109,13 +100,10 @@ class PacjentController extends Controller
                 ->where('id', '=', $id)
                 ->get();
         
-        
-        
         $events = Event::where('pacjent_id', '=', $id)
                 ->leftJoin('users', 'lekarz_id', '=', 'users.id')
                 ->orderBy('start', 'desc')
                 ->get();
-        //dd($users);
         
         $additional_Data = Additional_Data::where('pacjent_id', '=', $id)->get();
 
@@ -161,7 +149,6 @@ class PacjentController extends Controller
             $additional_Data = Additional_Data::create($updateArr);
         }
 
-        //dd($additional_Data);
         Response::json($additional_Data);
         return back();
     }
@@ -198,10 +185,9 @@ class PacjentController extends Controller
         $disease = Disease::where('disease_id', '=', $id)
                 ->where('lekarz_id', '=', $user_id)
                 ->delete();
-        Response::json($disease);
-        
-        return back();
 
+        Response::json($disease);
+        return back();
     }
 
 }

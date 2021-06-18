@@ -34,6 +34,10 @@
         <section class="content pt-3">
             <div class="container-fluid">
 
+                <div class="alert alert-danger alert-dismissible w-100" id="alert" style="display: none;">
+                    <button type="button" class="close" onclick="hide_Alert()">×</button>
+                    <center><h5><i class="icon fas fa-ban"></i> Uzupełnij swoje dane!</h5></center>
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -187,7 +191,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <h5>
-                                                                        {{$event->name}}
+                                                                        {{$event->name}} 
                                                                     </h5>
                                                                 </td>
                                                                 <td>
@@ -225,10 +229,27 @@
                                             </a>
                                         @endforeach
                                     @else
-                                        <a class="btn btn-primary btn-lg float-right" href="/pacjent/termin">
-                                            <i class="fas fa-plus-circle"></i>
-                                            Nowy termin
-                                        </a>
+                                        @if(isset($additional_Data)  && count($additional_Data)>0)
+                                            @foreach ($additional_Data as $additional_Data1)
+                                                Numer pesel: 
+                                                @if($additional_Data1->pesel==0 || $additional_Data1->phone_number==0)
+                                                    <a class="btn btn-primary btn-lg float-right" onclick="show_Alert()">
+                                                        <i class="fas fa-plus-circle"></i>
+                                                        Nowy termin
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-primary btn-lg float-right" href="/pacjent/termin">
+                                                        <i class="fas fa-plus-circle"></i>
+                                                        Nowy termin
+                                                    </a>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <a class="btn btn-primary btn-lg float-right" onclick="show_Alert()">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Nowy termin
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -269,7 +290,6 @@
                                                                         Dodał: {{$disease1->name}}
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        Data dodania: {{$disease1->created_at}}
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         @if(isset($role) && $role=="lekarz")
@@ -337,7 +357,7 @@
                                         @endforeach
                                     @endif
                                     @if(isset($role) && $role=="lekarz")
-                                        <a class="btn btn-primary btn-lg float-right" onclick=show_Disease()>
+                                        <a class="btn btn-primary btn-lg float-right text-white" onclick=show_Disease()>
                                             <i class="fas fa-plus-circle"></i>
                                             Dodaj chorobę
                                         </a>
@@ -540,6 +560,18 @@ function hide_Disease() {
   
   disease_List.style.display = "block";
   disease_New.style.display = "none";
+}
+
+function show_Alert() {
+  var alert = document.getElementById("alert");
+
+  alert.style.display = "block";
+}
+
+function hide_Alert() {
+  var alert = document.getElementById("alert");
+
+  alert.style.display = "none";
 }
 
     //Date picker
